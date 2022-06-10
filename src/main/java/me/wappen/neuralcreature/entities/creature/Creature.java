@@ -30,12 +30,12 @@ public class Creature extends Entity implements Transformable {
         muscles.addOutputHandler(new MoveMuscle(this));
 
         LayeredNetworkBuilder nb = new LayeredNetworkBuilder();
-        nb.addLayer(senses.getLength(), Math::tanh);
-        /*nb.addLayer(12, Functions::reLU);
+
+        nb.addLayer(senses.getLength(), Functions::map01); // input layer
+        nb.addLayer(12, Functions::reLU);
         nb.addLayer(6, Functions::reLU);
-        nb.addLayer(12, Functions::reLU);*/
-        nb.addLayer(4, Functions::reLU);
-        nb.addLayer(muscles.getLength(), Math::tanh);
+        nb.addLayer(12, Functions::reLU);
+        nb.addLayer(muscles.getLength(), Functions::map11); // output layer
         this.brain = nb.build();
     }
 

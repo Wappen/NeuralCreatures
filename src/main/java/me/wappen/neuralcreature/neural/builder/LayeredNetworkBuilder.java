@@ -12,10 +12,17 @@ public class LayeredNetworkBuilder implements NetworkBuilder {
 
     private record Layer(List<Neuron> neurons) {}
 
-    private List<Layer> layers;
+    private final List<Layer> layers;
+    private final Function<Double, Double> defActivation;
 
     public LayeredNetworkBuilder() {
         layers = new ArrayList<>();
+        defActivation = Math::tanh;
+    }
+
+    public LayeredNetworkBuilder(Function<Double, Double> defActivation) {
+        layers = new ArrayList<>();
+        this.defActivation = defActivation;
     }
 
     public void addLayer(int size, Function<Double, Double> activation) {
@@ -30,7 +37,7 @@ public class LayeredNetworkBuilder implements NetworkBuilder {
     }
 
     public void addLayer(int size) {
-        addLayer(size, Math::tanh);
+        addLayer(size, defActivation);
     }
 
     @Override

@@ -1,9 +1,8 @@
 package me.wappen.neuralcreature.neural;
 
-import me.wappen.neuralcreature.neural.io.InputProvider;
-import me.wappen.neuralcreature.neural.io.OutputHandler;
-
 import java.util.*;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public class Network implements Processable {
     final List<Neuron> inputs;
@@ -19,8 +18,8 @@ public class Network implements Processable {
         this.outputs = outputs;
     }
 
-    public void process(InputProvider provider, OutputHandler handler) {
-        handler.handle(process(provider.getInput()));
+    public void process(Supplier<double[]> inputSupplier, Consumer<double[]> outputConsumer) {
+        outputConsumer.accept(process(inputSupplier.get()));
     }
 
     @Override

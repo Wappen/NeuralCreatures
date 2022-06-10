@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Supplier;
 
-public class CompositeInputProvider implements InputProvider {
+public class CompositeInputProvider implements InputProvider, Supplier<double[]> {
     final List<InputProvider> inputs;
 
     public CompositeInputProvider() {
@@ -28,6 +29,11 @@ public class CompositeInputProvider implements InputProvider {
             values.add(input.getInput());
 
         return values.stream().flatMapToDouble(Arrays::stream).toArray(); // Return values as single double[]
+    }
+
+    @Override
+    public double[] get() {
+        return getInput();
     }
 
     @Override

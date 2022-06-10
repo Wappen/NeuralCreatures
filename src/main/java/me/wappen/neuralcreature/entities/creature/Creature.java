@@ -7,8 +7,6 @@ import me.wappen.neuralcreature.neural.Functions;
 import me.wappen.neuralcreature.neural.builder.LayeredNetworkBuilder;
 import me.wappen.neuralcreature.neural.io.CompositeInputProvider;
 import me.wappen.neuralcreature.neural.io.CompositeOutputHandler;
-import me.wappen.neuralcreature.neural.io.InputProvider;
-import me.wappen.neuralcreature.neural.io.OutputHandler;
 import me.wappen.neuralcreature.neural.Network;
 import processing.core.PApplet;
 import processing.core.PVector;
@@ -17,21 +15,19 @@ public class Creature extends Entity implements Transformable {
     private final Transform transform;
     private final float speed;
 
-    private final InputProvider senses;
-    private final OutputHandler muscles;
+    private final CompositeInputProvider senses;
+    private final CompositeOutputHandler muscles;
     private final Network brain;
 
     public Creature(PVector pos) {
         this.transform = new Transform(pos, new PVector(10, 10));
         this.speed = 1;
 
-        CompositeInputProvider senses = new CompositeInputProvider();
+        senses = new CompositeInputProvider();
         senses.addInputProvider(new VisionSense(this));
-        this.senses = senses;
 
-        CompositeOutputHandler muscles = new CompositeOutputHandler();
+        muscles = new CompositeOutputHandler();
         muscles.addOutputHandler(new MoveMuscle(this));
-        this.muscles = muscles;
 
         LayeredNetworkBuilder nb = new LayeredNetworkBuilder();
         nb.addLayer(senses.getLength(), Math::tanh);

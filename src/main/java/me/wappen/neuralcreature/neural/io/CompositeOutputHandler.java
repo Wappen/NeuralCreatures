@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Consumer;
 
-public class CompositeOutputHandler implements OutputHandler {
+public class CompositeOutputHandler implements OutputHandler, Consumer<double[]> {
     final List<OutputHandler> outputs;
 
     public CompositeOutputHandler() {
@@ -34,5 +35,15 @@ public class CompositeOutputHandler implements OutputHandler {
     @Override
     public int getLength() {
         return outputs.stream().mapToInt(OutputHandler::getLength).sum();
+    }
+
+    @Override
+    public void accept(double[] doubles) {
+        handle(doubles);
+    }
+
+    @Override
+    public Consumer<double[]> andThen(Consumer<? super double[]> after) {
+        return Consumer.super.andThen(after);
     }
 }

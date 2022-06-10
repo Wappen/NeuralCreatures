@@ -1,4 +1,4 @@
-package me.wappen.neural.io;
+package me.wappen.neuralcreature.neural.io;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,5 +28,10 @@ public class CompositeInputProvider implements InputProvider {
             values.add(input.getInput());
 
         return values.stream().flatMapToDouble(Arrays::stream).toArray(); // Return values as single double[]
+    }
+
+    @Override
+    public int getLength() {
+        return inputs.stream().mapToInt(InputProvider::getLength).sum();
     }
 }

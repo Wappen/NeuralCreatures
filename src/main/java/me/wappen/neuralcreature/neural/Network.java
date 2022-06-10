@@ -1,7 +1,7 @@
-package me.wappen.neural;
+package me.wappen.neuralcreature.neural;
 
-import me.wappen.neural.io.InputProvider;
-import me.wappen.neural.io.OutputHandler;
+import me.wappen.neuralcreature.neural.io.InputProvider;
+import me.wappen.neuralcreature.neural.io.OutputHandler;
 
 import java.util.*;
 
@@ -12,6 +12,11 @@ public class Network implements Processable {
     public Network() {
         inputs = new LinkedList<>();
         outputs = new LinkedList<>();
+    }
+
+    public Network(List<Neuron> inputs, List<Neuron> outputs) {
+        this.inputs = inputs;
+        this.outputs = outputs;
     }
 
     public void process(InputProvider provider, OutputHandler handler) {
@@ -27,7 +32,7 @@ public class Network implements Processable {
         {
             int i = 0;
             for (Neuron input : inputs)
-                traversed.put(input, inputValues[i++]);
+                traversed.put(input, input.bias() + input.activation().apply(inputValues[i++]));
         }
 
         double[] outputValues = new double[outputs.size()];
@@ -47,8 +52,8 @@ public class Network implements Processable {
                 sum += cachedValues.get(inputAxon.previous());
             }
             else {
-                double val = getValue(cachedValues, inputAxon.previous());
-                cachedValues.put(inputAxon.previous(), val * inputAxon.weight());
+                double val = getValue(cachedValues, inputAxon.previous()) * inputAxon.weight();
+                cachedValues.put(inputAxon.previous(), val);
                 sum += val;
             }
         }

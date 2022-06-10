@@ -1,4 +1,4 @@
-package me.wappen.neural.io;
+package me.wappen.neuralcreature.neural.io;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,6 +33,6 @@ public class CompositeOutputHandler implements OutputHandler {
 
     @Override
     public int getLength() {
-        return 0;
+        return outputs.stream().mapToInt(OutputHandler::getLength).sum();
     }
 }

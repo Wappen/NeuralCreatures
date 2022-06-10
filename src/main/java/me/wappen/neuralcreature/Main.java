@@ -1,4 +1,4 @@
-package me.wappen;
+package me.wappen.neuralcreature;
 
 import processing.core.PApplet;
 

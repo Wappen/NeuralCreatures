@@ -1,7 +1,7 @@
-package me.wappen;
+package me.wappen.neuralcreature;
 
-import me.wappen.entities.Creature;
-import me.wappen.entities.Plant;
+import me.wappen.neuralcreature.entities.creature.Creature;
+import me.wappen.neuralcreature.entities.Plant;
 import processing.core.PApplet;
 import processing.core.PVector;
 

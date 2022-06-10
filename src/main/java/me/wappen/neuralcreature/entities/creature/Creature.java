@@ -9,7 +9,6 @@ import me.wappen.neuralcreature.neural.io.CompositeInputProvider;
 import me.wappen.neuralcreature.neural.io.CompositeOutputHandler;
 import me.wappen.neuralcreature.neural.Network;
 import processing.core.PApplet;
-import processing.core.PConstants;
 import processing.core.PVector;
 
 import java.util.Deque;
@@ -26,7 +25,7 @@ public class Creature extends Entity implements Transformable {
 
     private final Deque<PVector> path;
 
-    private final float pathLength = 1000;
+    private final float pathLength = 10000;
     private final float pathSectionLength = 100;
 
     public Creature(PVector pos) {

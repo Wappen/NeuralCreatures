@@ -3,8 +3,8 @@ package me.wappen.neuralcreature;
 import processing.core.PVector;
 
 public class Transform {
-    PVector pos;
-    PVector size;
+    private PVector pos;
+    private PVector size;
 
     public Transform(PVector pos, PVector size) {
         this.pos = pos;

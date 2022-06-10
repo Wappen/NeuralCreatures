@@ -53,8 +53,12 @@ public class World implements Tickable, Drawable {
 
     @Override
     public void draw(PApplet applet) {
+        applet.background(32);
+
         for (Entity entity : entities.values()) {
             applet.fill(255, 255, 255);
+            applet.stroke(0);
+            applet.strokeWeight(0);
             entity.draw(applet);
         }
     }

@@ -17,8 +17,6 @@ public class Main extends PApplet {
 
     @Override
     public void draw() {
-        background(0);
-
         translate(width / 2f, height / 2f);
 
         world.tick();

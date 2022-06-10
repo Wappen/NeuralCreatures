@@ -1,4 +1,4 @@
-package me.wappen.neural;
+package me.wappen.neural.io;
 
 public interface InputProvider {
     double[] getInput();

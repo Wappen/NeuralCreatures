@@ -1,4 +1,4 @@
-package me.wappen.neural.network;
+package me.wappen.neural;
 
 import java.util.List;
 import java.util.function.Function;

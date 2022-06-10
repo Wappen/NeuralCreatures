@@ -1,4 +1,4 @@
-package me.wappen.neural;
+package me.wappen.neural.io;
 
 import java.util.ArrayList;
 import java.util.Arrays;

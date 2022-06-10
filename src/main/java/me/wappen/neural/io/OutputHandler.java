@@ -1,4 +1,4 @@
-package me.wappen.neural;
+package me.wappen.neural.io;
 
 public interface OutputHandler {
     void handle(double[] output);

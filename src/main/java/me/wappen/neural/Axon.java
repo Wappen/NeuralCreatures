@@ -1,4 +1,4 @@
-package me.wappen.neural.network;
+package me.wappen.neural;
 
 public record Axon(Neuron previous, float weight) {
 }

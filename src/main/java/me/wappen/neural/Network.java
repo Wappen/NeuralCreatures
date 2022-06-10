@@ -1,8 +1,7 @@
-package me.wappen.neural.network;
+package me.wappen.neural;
 
-import me.wappen.neural.InputProvider;
-import me.wappen.neural.OutputHandler;
-import me.wappen.neural.Processable;
+import me.wappen.neural.io.InputProvider;
+import me.wappen.neural.io.OutputHandler;
 
 import java.util.*;
 

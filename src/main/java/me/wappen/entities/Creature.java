@@ -2,8 +2,11 @@ package me.wappen.entities;
 
 import me.wappen.Entity;
 import me.wappen.Transformable;
-import me.wappen.neural.*;
-import me.wappen.neural.network.Network;
+import me.wappen.neural.io.CompositeInputProvider;
+import me.wappen.neural.io.CompositeOutputHandler;
+import me.wappen.neural.io.InputProvider;
+import me.wappen.neural.io.OutputHandler;
+import me.wappen.neural.Network;
 import processing.core.PApplet;
 import processing.core.PVector;
 

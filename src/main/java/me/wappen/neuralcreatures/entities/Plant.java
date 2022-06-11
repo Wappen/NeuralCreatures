@@ -16,7 +16,8 @@ public class Plant extends Entity implements Transformable {
 
     @Override
     public void tick() {
-        transform.getSize().add(0.01f, 0.01f);
+        if (transform.getSize().mag() < 15)
+            transform.getSize().add(0.01f, 0.01f);
     }
 
     @Override

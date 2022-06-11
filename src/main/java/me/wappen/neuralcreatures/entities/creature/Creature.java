@@ -32,6 +32,7 @@ public class Creature extends Entity implements Transformable {
 
         senses = new Senses();
         senses.addSense(new VisionSense(this));
+        senses.addSense(new KeyboardSense());
 
         muscles = new Muscles();
         muscles.addMuscle(new MoveMuscle(this));
@@ -39,9 +40,9 @@ public class Creature extends Entity implements Transformable {
         LayeredNetworkBuilder nb = new LayeredNetworkBuilder(NNUtils::reLU);
 
         nb.addLayer(senses.getResolution(), NNUtils::map01); // input layer
-        nb.addLayer(12);
-        nb.addLayer(6);
-        nb.addLayer(12);
+        //nb.addLayer(8);
+        nb.addLayer(4);
+        //nb.addLayer(8);
         nb.addLayer(muscles.getResolution(), NNUtils::map11); // output layer
         this.brain = nb.build();
 
@@ -58,7 +59,7 @@ public class Creature extends Entity implements Transformable {
         ticks++;
 
         float ticksBetweenSection = 15;
-        float pathSections = 100;
+        float pathSections = 200;
 
         if (path.isEmpty() || ticks % ticksBetweenSection == 0)
             path.add(transform.getPos().copy());
@@ -80,9 +81,18 @@ public class Creature extends Entity implements Transformable {
         applet.ellipse(pos.x, pos.y, size.x, size.y);
 
         // Draw face
-        applet.fill(255, 255, 255);
         PVector facePos = pos.copy().add(dir.copy().mult(size.mag() / 4));
+        applet.ellipse(facePos.x, facePos.y, size.x / 1.5f, size.y / 1.5f);
+
+        // Draw eye
+        applet.fill(255);
         applet.ellipse(facePos.x, facePos.y, size.x / 2, size.y / 2);
+
+
+        // Draw pupil
+        PVector eyeDir = dir.copy().rotate(smoothSquareWave(ticks / 30f));
+        applet.fill(0);
+        applet.ellipse(facePos.x + eyeDir.x, facePos.y + eyeDir.y, size.x / 5, size.y / 5);
 
         // Draw path
         if (!path.isEmpty()) {
@@ -92,20 +102,21 @@ public class Creature extends Entity implements Transformable {
             applet.beginShape();
 
             PVector prev = pos;
-            PVector control = prev;
-            applet.vertex(prev.x, prev.y);
+            applet.vertex(pos.x, pos.y);
 
             for (Iterator<PVector> it = path.descendingIterator(); it.hasNext(); ) {
                 PVector p = it.next();
-                control = prev.copy().add(p).mult(0.5f);
+                PVector control = prev.copy().add(p).mult(0.5f);
                 applet.quadraticVertex(prev.x, prev.y, control.x, control.y);
                 prev = p;
             }
 
-            applet.quadraticVertex(control.x, control.y, prev.x, prev.y);
-
             applet.endShape();
         }
+    }
+
+    private float smoothSquareWave(float t) {
+        return (float) (Math.sin(t) + Math.sin(t * 3) / 3);
     }
 
     @Override

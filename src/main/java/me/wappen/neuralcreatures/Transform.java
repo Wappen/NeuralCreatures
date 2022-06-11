@@ -37,6 +37,12 @@ public class Transform {
         dir.rotate(theta);
     }
 
+    public void lerp(Transform other, float val) {
+        pos.lerp(other.pos, val);
+        size.lerp(other.size, val);
+        dir.lerp(other.dir, val);
+    }
+
     public PVector getPos() {
         return pos;
     }

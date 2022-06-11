@@ -8,6 +8,7 @@ import processing.core.PVector;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.function.Consumer;
 
 public class World implements Tickable, Drawable {
 
@@ -18,11 +19,16 @@ public class World implements Tickable, Drawable {
         rng = new Random();
         entities = new HashMap<>();
 
-        for (int i = 0; i < 100; i++) {
-            if (rng.nextBoolean())
-                spawn(new Creature(PVector.random2D().mult(100)));
-            else
-                spawn(new Plant(PVector.random2D().mult(100)));
+        massSpawn(pos -> spawn(new Creature(pos)), 1000, new PVector(-1000, -1000), new PVector(1000, 1000));
+        massSpawn(pos -> spawn(new Plant(pos)), 1000, new PVector(-1000, -1000), new PVector(1000, 1000));
+    }
+
+    public void massSpawn(Consumer<PVector> posConsumer, int num, PVector topLeft, PVector bottomRight) {
+        PVector delta = bottomRight.copy().sub(topLeft);
+
+        for (int i = 0; i < num; i++) {
+            PVector pos = new PVector(rng.nextFloat() * delta.x + topLeft.x, rng.nextFloat() * delta.y + topLeft.y);
+            posConsumer.accept(pos);
         }
     }
 
@@ -59,6 +65,7 @@ public class World implements Tickable, Drawable {
             applet.fill(255, 255, 255);
             applet.stroke(0);
             applet.strokeWeight(0);
+            applet.noStroke();
             entity.draw(applet);
         }
     }

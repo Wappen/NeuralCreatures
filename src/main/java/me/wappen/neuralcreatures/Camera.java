@@ -28,8 +28,7 @@ public class Camera implements Transformable, Tickable {
 
     @Override
     public void tick() {
-        transform.getPos().lerp(target.getPos(), stiffness);
-        transform.getSize().lerp(target.getSize(), stiffness);
+        transform.lerp(target, stiffness);
     }
 
     @Override

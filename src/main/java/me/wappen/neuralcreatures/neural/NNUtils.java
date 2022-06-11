@@ -6,7 +6,7 @@ import java.util.Random;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public final class Functions {
+public final class NNUtils {
     private static final Random rng = new Random();
 
     public static Network.Neuron randomlyConnected(List<Network.Neuron> inputLayer, Function<Double, Double> activation, Supplier<Double> weight, Supplier<Double> bias) {
@@ -18,7 +18,7 @@ public final class Functions {
     }
 
     public static Network.Neuron randomlyConnected(List<Network.Neuron> inputLayer, Function<Double, Double> activation) {
-        return randomlyConnected(inputLayer, activation, Functions::randomDouble, Functions::randomDouble);
+        return randomlyConnected(inputLayer, activation, NNUtils::randomDouble, NNUtils::randomDouble);
     }
 
     public static Network.Neuron randomlyConnected(List<Network.Neuron> inputLayer) {

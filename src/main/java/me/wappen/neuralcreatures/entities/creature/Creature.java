@@ -3,7 +3,7 @@ package me.wappen.neuralcreatures.entities.creature;
 import me.wappen.neuralcreatures.Entity;
 import me.wappen.neuralcreatures.Transform;
 import me.wappen.neuralcreatures.Transformable;
-import me.wappen.neuralcreatures.neural.Functions;
+import me.wappen.neuralcreatures.neural.NNUtils;
 import me.wappen.neuralcreatures.neural.builder.LayeredNetworkBuilder;
 import me.wappen.neuralcreatures.neural.Network;
 import processing.core.PApplet;
@@ -36,13 +36,13 @@ public class Creature extends Entity implements Transformable {
         muscles = new Muscles();
         muscles.addMuscle(new MoveMuscle(this));
 
-        LayeredNetworkBuilder nb = new LayeredNetworkBuilder(Functions::reLU);
+        LayeredNetworkBuilder nb = new LayeredNetworkBuilder(NNUtils::reLU);
 
-        nb.addLayer(senses.getResolution(), Functions::map01); // input layer
+        nb.addLayer(senses.getResolution(), NNUtils::map01); // input layer
         nb.addLayer(12);
         nb.addLayer(6);
         nb.addLayer(12);
-        nb.addLayer(muscles.getResolution(), Functions::map11); // output layer
+        nb.addLayer(muscles.getResolution(), NNUtils::map11); // output layer
         this.brain = nb.build();
 
         path = new LinkedList<>();

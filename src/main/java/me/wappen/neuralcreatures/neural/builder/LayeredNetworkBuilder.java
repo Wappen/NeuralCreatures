@@ -1,6 +1,6 @@
 package me.wappen.neuralcreatures.neural.builder;
 
-import me.wappen.neuralcreatures.neural.Functions;
+import me.wappen.neuralcreatures.neural.NNUtils;
 import me.wappen.neuralcreatures.neural.Network;
 
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ public class LayeredNetworkBuilder implements NetworkBuilder {
         Layer layer = new Layer(new ArrayList<>());
 
         for (int i = 0; i < size; i++) {
-            layer.neurons.add(Functions.randomlyConnected(prevLayer.neurons, activation));
+            layer.neurons.add(NNUtils.randomlyConnected(prevLayer.neurons, activation));
         }
 
         layers.add(layer);

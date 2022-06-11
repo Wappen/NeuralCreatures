@@ -6,40 +6,35 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class CompositeOutputHandler implements OutputHandler, Consumer<double[]> {
-    final List<OutputHandler> outputs;
+public class CompositeOutputConsumer implements OutputConsumer, Consumer<double[]> {
+    final List<OutputConsumer> outputs;
 
-    public CompositeOutputHandler() {
+    public CompositeOutputConsumer() {
         outputs = new LinkedList<>();
     }
 
-    public CompositeOutputHandler(List<OutputHandler> outputs) {
+    public CompositeOutputConsumer(List<OutputConsumer> outputs) {
         this.outputs = outputs;
     }
 
-    public void addOutputHandler(OutputHandler output) {
+    public void addConsumer(OutputConsumer output) {
         outputs.add(output);
     }
 
     @Override
-    public void handle(double[] output) {
+    public void accept(double[] output) {
         List<Double> toHandle = new ArrayList<>(Arrays.stream(output).boxed().toList());
 
-        for (OutputHandler o : outputs) {
+        for (OutputConsumer o : outputs) {
             List<Double> values = toHandle.subList(0, o.getLength());
-            o.handle(values.stream().mapToDouble(v -> v).toArray());
+            o.accept(values.stream().mapToDouble(v -> v).toArray());
             values.clear();
         }
     }
 
     @Override
     public int getLength() {
-        return outputs.stream().mapToInt(OutputHandler::getLength).sum();
-    }
-
-    @Override
-    public void accept(double[] doubles) {
-        handle(doubles);
+        return outputs.stream().mapToInt(OutputConsumer::getLength).sum();
     }
 
     @Override

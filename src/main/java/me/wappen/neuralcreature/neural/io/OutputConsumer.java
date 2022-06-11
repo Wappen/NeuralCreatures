@@ -1,6 +1,6 @@
 package me.wappen.neuralcreature.neural.io;
 
-public interface OutputHandler {
-    void handle(double[] output);
+public interface OutputConsumer {
+    void accept(double[] output);
     int getLength();
 }

@@ -5,8 +5,8 @@ import me.wappen.neuralcreature.Transform;
 import me.wappen.neuralcreature.Transformable;
 import me.wappen.neuralcreature.neural.Functions;
 import me.wappen.neuralcreature.neural.builder.LayeredNetworkBuilder;
-import me.wappen.neuralcreature.neural.io.CompositeInputProvider;
-import me.wappen.neuralcreature.neural.io.CompositeOutputHandler;
+import me.wappen.neuralcreature.neural.io.CompositeInputSupplier;
+import me.wappen.neuralcreature.neural.io.CompositeOutputConsumer;
 import me.wappen.neuralcreature.neural.Network;
 import processing.core.PApplet;
 import processing.core.PVector;
@@ -19,8 +19,8 @@ public class Creature extends Entity implements Transformable {
     private final Transform transform;
     private final float speed;
 
-    private final CompositeInputProvider senses;
-    private final CompositeOutputHandler muscles;
+    private final CompositeInputSupplier senses;
+    private final CompositeOutputConsumer muscles;
     private final Network brain;
 
     private final Deque<PVector> path;
@@ -32,11 +32,11 @@ public class Creature extends Entity implements Transformable {
         this.transform = new Transform(pos, new PVector(10, 10));
         this.speed = 1;
 
-        senses = new CompositeInputProvider();
+        senses = new CompositeInputSupplier();
         senses.addInputProvider(new VisionSense(this));
 
-        muscles = new CompositeOutputHandler();
-        muscles.addOutputHandler(new MoveMuscle(this));
+        muscles = new CompositeOutputConsumer();
+        muscles.addConsumer(new MoveMuscle(this));
 
         LayeredNetworkBuilder nb = new LayeredNetworkBuilder(Functions::reLU);
 

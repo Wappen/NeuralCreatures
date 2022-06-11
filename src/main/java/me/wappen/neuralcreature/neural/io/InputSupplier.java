@@ -1,6 +1,6 @@
 package me.wappen.neuralcreature.neural.io;
 
-public interface InputProvider {
-    double[] getInput();
+public interface InputSupplier {
+    double[] get();
     int getLength();
 }

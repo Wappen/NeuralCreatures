@@ -19,6 +19,8 @@ public class Main extends PApplet {
     private final AtomicInteger fastForward = new AtomicInteger(0);
     private Thread simulationThread;
 
+    private Entity selected = null;
+
     public Main() {
         instance = this;
     }
@@ -51,6 +53,17 @@ public class Main extends PApplet {
             camera.tick();
             simulate();
             world.draw(this);
+
+            if (selected != null) {
+                Transform transform = ((Transformable) selected).getTransform();
+                PVector pos = transform.getPos();
+                PVector size = transform.getSize();
+
+                fill(255, 128);
+                stroke(255);
+                strokeWeight(1);
+                ellipse(pos.x, pos.y, size.x, size.y);
+            }
         }
         else {
             fill(255, 255, 255);
@@ -88,6 +101,10 @@ public class Main extends PApplet {
         return fastForward.get() % 2 != 0;
     }
 
+    private void selectEntity(Entity entity) {
+        selected = entity;
+    }
+
     @Override
     public void keyPressed(KeyEvent event) {
         switch (keyCode) {
@@ -114,6 +131,19 @@ public class Main extends PApplet {
     public void mouseWheel(MouseEvent event) {
         float zoomSpeed = 0.3f;
         camera.zoom(-event.getCount() * zoomSpeed);
+    }
+
+    @Override
+    public void mousePressed(MouseEvent event) {
+        if (event.getButton() == LEFT) {
+            selectEntity(world.getEntityAtCoord(mousePos()));
+        }
+    }
+
+    public PVector mousePos() {
+        PVector size = camera.getTransform().getSize();
+        PVector pos = camera.getTransform().getPos();
+        return new PVector((mouseX - width / 2f) / size.x + pos.x, (mouseY - height / 2f) / size.y + pos.y);
     }
 
     public static void main(String[] args) {

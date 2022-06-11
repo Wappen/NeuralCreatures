@@ -24,6 +24,21 @@ public class World implements Tickable, Drawable {
         massSpawn(pos -> spawn(new Plant(pos)), 1000, new PVector(-1000, -1000), new PVector(1000, 1000));
     }
 
+    public Entity getEntityAtCoord(PVector coord) {
+        for (Entity e : entities.values()) {
+            if (e instanceof Transformable entity) {
+                PVector normalizedCoord = coord.copy().sub(entity.getTransform().getPos());
+                normalizedCoord.x /= entity.getTransform().getSize().x / 2;
+                normalizedCoord.y /= entity.getTransform().getSize().y / 2;
+
+                if (normalizedCoord.mag() < 1)
+                    return e;
+            }
+        }
+
+        return null;
+    }
+
     public void deferTask(Runnable task) {
         deferredTasks.add(task);
     }

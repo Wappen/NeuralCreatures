@@ -15,6 +15,7 @@ import java.util.LinkedList;
 
 public class Creature extends Entity implements Transformable {
     private final Transform transform;
+
     private final float speed;
 
     private final Senses senses;
@@ -49,6 +50,7 @@ public class Creature extends Entity implements Transformable {
     }
 
     public void move(PVector dir) {
+        transform.setDir(dir);
         transform.translate(dir.mult(speed));
     }
 
@@ -61,7 +63,18 @@ public class Creature extends Entity implements Transformable {
 
     @Override
     public void draw(PApplet applet) {
-        applet.ellipse(transform.getPos().x, transform.getPos().y, transform.getSize().x, transform.getSize().y);
+        PVector pos = transform.getPos();
+        PVector size = transform.getSize();
+        PVector dir = transform.getDir();
+
+        // Draw body
+        applet.fill(255, 100, 100);
+        applet.ellipse(pos.x, pos.y, size.x, size.y);
+
+        // Draw face
+        applet.fill(255, 255, 255);
+        PVector facePos = pos.copy().add(dir.copy().mult(size.mag() / 4));
+        applet.ellipse(facePos.x, facePos.y, size.x / 2, size.y / 2);
 
         // Draw path
         if (!path.isEmpty()) {
@@ -70,7 +83,7 @@ public class Creature extends Entity implements Transformable {
             applet.stroke(255, 10);
             applet.beginShape();
 
-            PVector prev = transform.getPos();
+            PVector prev = pos;
             PVector control = prev;
             applet.vertex(prev.x, prev.y);
 

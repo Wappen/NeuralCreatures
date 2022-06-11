@@ -5,10 +5,36 @@ import processing.core.PVector;
 public class Transform {
     private PVector pos;
     private PVector size;
+    private PVector dir;
+
+    public Transform() {
+        this(new PVector(0, 0));
+    }
+
+    public Transform(PVector pos) {
+        this(pos, new PVector(1, 1));
+    }
 
     public Transform(PVector pos, PVector size) {
+        this(pos, size, new PVector(0, 1));
+    }
+
+    public Transform(PVector pos, PVector size, PVector dir) {
         this.pos = pos;
         this.size = size;
+        this.dir = dir;
+    }
+
+    public void translate(PVector translation) {
+        pos.add(translation);
+    }
+
+    public void scale(float factor) {
+        size.mult(factor);
+    }
+
+    public void rotate(float theta) {
+        dir.rotate(theta);
     }
 
     public PVector getPos() {
@@ -27,7 +53,12 @@ public class Transform {
         this.size = size;
     }
 
-    public void translate(PVector translation) {
-        pos.add(translation);
+    public PVector getDir() {
+        return dir;
+    }
+
+    public void setDir(PVector dir) {
+        this.dir = dir;
+        this.dir.normalize();
     }
 }

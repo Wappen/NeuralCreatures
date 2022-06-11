@@ -9,19 +9,19 @@ import java.util.function.Supplier;
 public final class Functions {
     private static final Random rng = new Random();
 
-    public static Neuron randomlyConnected(List<Neuron> inputLayer, Function<Double, Double> activation, Supplier<Double> weight, Supplier<Double> bias) {
-        List<Axon> axons = new ArrayList<>();
-        for (Neuron neuron : inputLayer)
-            axons.add(new Axon(neuron, weight.get()));
+    public static Network.Neuron randomlyConnected(List<Network.Neuron> inputLayer, Function<Double, Double> activation, Supplier<Double> weight, Supplier<Double> bias) {
+        List<Network.Axon> axons = new ArrayList<>();
+        for (Network.Neuron neuron : inputLayer)
+            axons.add(new Network.Axon(neuron, weight.get()));
 
-        return new Neuron(bias.get(), axons, activation);
+        return new Network.Neuron(bias.get(), axons, activation);
     }
 
-    public static Neuron randomlyConnected(List<Neuron> inputLayer, Function<Double, Double> activation) {
+    public static Network.Neuron randomlyConnected(List<Network.Neuron> inputLayer, Function<Double, Double> activation) {
         return randomlyConnected(inputLayer, activation, Functions::randomDouble, Functions::randomDouble);
     }
 
-    public static Neuron randomlyConnected(List<Neuron> inputLayer) {
+    public static Network.Neuron randomlyConnected(List<Network.Neuron> inputLayer) {
         return randomlyConnected(inputLayer, Math::tanh);
     }
 

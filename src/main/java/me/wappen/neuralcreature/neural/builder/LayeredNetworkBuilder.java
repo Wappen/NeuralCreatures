@@ -2,7 +2,6 @@ package me.wappen.neuralcreature.neural.builder;
 
 import me.wappen.neuralcreature.neural.Functions;
 import me.wappen.neuralcreature.neural.Network;
-import me.wappen.neuralcreature.neural.Neuron;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +9,7 @@ import java.util.function.Function;
 
 public class LayeredNetworkBuilder implements NetworkBuilder {
 
-    private record Layer(List<Neuron> neurons) {}
+    private record Layer(List<Network.Neuron> neurons) {}
 
     private final List<Layer> layers;
     private final Function<Double, Double> defActivation;

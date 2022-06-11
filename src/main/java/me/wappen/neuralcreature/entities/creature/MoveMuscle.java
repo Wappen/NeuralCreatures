@@ -1,9 +1,8 @@
 package me.wappen.neuralcreature.entities.creature;
 
-import me.wappen.neuralcreature.neural.io.OutputConsumer;
 import processing.core.PVector;
 
-public record MoveMuscle(Creature creature) implements OutputConsumer {
+public record MoveMuscle(Creature creature) implements Muscle {
 
     @Override
     public void accept(double[] output) {
@@ -14,7 +13,7 @@ public record MoveMuscle(Creature creature) implements OutputConsumer {
     }
 
     @Override
-    public int getLength() {
+    public int getResolution() {
         return 2;
     }
 }

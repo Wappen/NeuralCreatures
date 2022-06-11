@@ -2,9 +2,14 @@ package me.wappen.neuralcreature.neural;
 
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
-public class Network implements Processable {
+public class Network {
+
+    public record Neuron(double bias, List<Axon> inputAxons, Function<Double, Double> activation) { }
+    public record Axon(Neuron previous, double weight) { }
+
     final List<Neuron> inputs;
     final List<Neuron> outputs;
 
@@ -22,7 +27,6 @@ public class Network implements Processable {
         outputConsumer.accept(process(inputSupplier.get()));
     }
 
-    @Override
     public double[] process(double[] inputValues) {
         if (inputValues.length != inputs.size())
             throw new IllegalArgumentException("inputValues' length does not match input layer's size");

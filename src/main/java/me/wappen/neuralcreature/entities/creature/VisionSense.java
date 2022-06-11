@@ -1,8 +1,6 @@
 package me.wappen.neuralcreature.entities.creature;
 
-import me.wappen.neuralcreature.neural.io.InputSupplier;
-
-public record VisionSense(Creature creature) implements InputSupplier {
+public record VisionSense(Creature creature) implements Sense {
 
     @Override
     public double[] get() {
@@ -13,7 +11,7 @@ public record VisionSense(Creature creature) implements InputSupplier {
     }
 
     @Override
-    public int getLength() {
+    public int getResolution() {
         return 2;
     }
 }

@@ -1,4 +1,4 @@
-package me.wappen.neuralcreature.neural.io;
+package me.wappen.neuralcreature.entities.creature;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -6,18 +6,18 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class CompositeInputSupplier implements InputSupplier, Supplier<double[]> {
-    final List<InputSupplier> inputs;
+public class Senses implements Sense, Supplier<double[]> {
+    final List<Sense> inputs;
 
-    public CompositeInputSupplier() {
+    public Senses() {
         inputs = new LinkedList<>();
     }
 
-    public CompositeInputSupplier(List<InputSupplier> inputs) {
+    public Senses(List<Sense> inputs) {
         this.inputs = inputs;
     }
 
-    public void addInputProvider(InputSupplier input) {
+    public void addSense(Sense input) {
         inputs.add(input);
     }
 
@@ -25,14 +25,14 @@ public class CompositeInputSupplier implements InputSupplier, Supplier<double[]>
     public double[] get() {
         List<double[]> values = new ArrayList<>();
 
-        for (InputSupplier input : inputs)
+        for (Sense input : inputs)
             values.add(input.get());
 
         return values.stream().flatMapToDouble(Arrays::stream).toArray(); // Return values as single double[]
     }
 
     @Override
-    public int getLength() {
-        return inputs.stream().mapToInt(InputSupplier::getLength).sum();
+    public int getResolution() {
+        return inputs.stream().mapToInt(Sense::getResolution).sum();
     }
 }

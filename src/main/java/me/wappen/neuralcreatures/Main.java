@@ -123,4 +123,8 @@ public class Main extends PApplet {
     public static Main getInstance() {
         return instance;
     }
+
+    public static Camera getCamera() {
+        return instance.camera;
+    }
 }

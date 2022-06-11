@@ -1,6 +1,7 @@
 package me.wappen.neuralcreatures.entities.creature;
 
 import me.wappen.neuralcreatures.Entity;
+import me.wappen.neuralcreatures.Main;
 import me.wappen.neuralcreatures.Transform;
 import me.wappen.neuralcreatures.Transformable;
 import me.wappen.neuralcreatures.neural.NNUtils;
@@ -107,11 +108,19 @@ public class Creature extends Entity implements Transformable {
             PVector prev = pos;
             applet.vertex(pos.x, pos.y);
 
+            int i = 0;
+            int quality = (int)Math.ceil(1 / Main.getCamera().getTransform().getSize().mag() * 3);
+
             for (Iterator<PVector> it = path.descendingIterator(); it.hasNext(); ) {
                 PVector p = it.next();
-                PVector control = prev.copy().add(p).mult(0.5f);
-                applet.quadraticVertex(prev.x, prev.y, control.x, control.y);
-                prev = p;
+
+                if (i % quality == 0 || i >= path.size() - quality) {
+                    PVector control = prev.copy().add(p).mult(0.5f);
+                    applet.quadraticVertex(prev.x, prev.y, control.x, control.y);
+                    prev = p;
+                }
+
+                i++;
             }
 
             applet.endShape();

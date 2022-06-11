@@ -10,7 +10,7 @@ import java.util.LinkedList;
 
 public class Path implements Tickable, Drawable {
 
-    private Transformable tracer;
+    private final Transformable tracer;
     private final Deque<PVector> path;
 
     private int ticks;
@@ -48,7 +48,6 @@ public class Path implements Tickable, Drawable {
 
             int i = 0;
             int quality = (int)Math.ceil(1 / Main.getCamera().getTransform().getSize().mag() * 12);
-            System.out.println(quality);
 
             for (Iterator<PVector> it = path.descendingIterator(); it.hasNext(); ) {
                 PVector p = it.next();

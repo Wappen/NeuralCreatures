@@ -20,9 +20,9 @@ public class World implements Tickable, Drawable {
         entities = new HashMap<>();
         deferredTasks = new LinkedList<>();
 
-        float worldSize = 100;
+        float worldSize = 1000;
 
-        massSpawn(pos -> spawn(new Creature(pos)), 100,
+        massSpawn(pos -> spawn(new Creature(pos)), 500,
                 new PVector(-worldSize, -worldSize), new PVector(worldSize, worldSize));
 
         massSpawn(pos -> spawn(new Plant(pos)), 1000,

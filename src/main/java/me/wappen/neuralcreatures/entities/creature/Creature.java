@@ -21,9 +21,7 @@ public class Creature extends Entity implements Transformable, Colorable {
     private final Muscles muscles;
     private final Network brain;
 
-    private int ticks = 0;
-
-    private final Deque<PVector> path;
+    Path path;
 
     public Creature(PVector pos) {
         this.transform = new Transform(pos, new PVector(10, 10));
@@ -45,7 +43,7 @@ public class Creature extends Entity implements Transformable, Colorable {
         nb.addLayer(muscles.getResolution(), NNUtils::map11); // output layer
         this.brain = nb.build();
 
-        path = new LinkedList<>();
+        path = new Path(this);
         //color = new PVector(255, 100, 100);
         color = PVector.random3D().add(1, 1, 1).mult(0.5f).mult(255);
     }
@@ -61,17 +59,7 @@ public class Creature extends Entity implements Transformable, Colorable {
         if (Float.isNaN(transform.getDir().x) || Float.isNaN(transform.getDir().y) || transform.getDir().mag() == 0)
             getWorld().deferTask(() -> getWorld().despawn(this));
 
-        ticks++;
-
-        float ticksBetweenSection = 15;
-        float pathSections = 200;
-
-        if (path.isEmpty() || ticks % ticksBetweenSection == 0)
-            path.add(transform.getPos().copy());
-
-        while (path.size() > pathSections)
-            path.remove();
-
+        path.tick();
         brain.process(senses, muscles);
     }
 
@@ -94,37 +82,12 @@ public class Creature extends Entity implements Transformable, Colorable {
         applet.noStroke();
 
         // Draw pupil
-        PVector pupilPos = eyePos.add(dir.copy().rotate(smoothSquareWave(ticks / 30f + color.x)));
+        PVector pupilPos = eyePos.add(dir.copy().rotate(smoothSquareWave(applet.frameCount / 30f + color.x)));
         applet.fill(0);
         applet.ellipse(pupilPos.x, pupilPos.y, size.x / 5, size.y / 5);
 
         // Draw path
-        if (!path.isEmpty()) {
-            applet.noFill();
-            applet.strokeWeight(2);
-            applet.stroke(255, 10);
-            applet.beginShape();
-
-            PVector prev = pos;
-            applet.vertex(pos.x, pos.y);
-
-            int i = 0;
-            int quality = (int)Math.ceil(1 / Main.getCamera().getTransform().getSize().mag() * 3);
-
-            for (Iterator<PVector> it = path.descendingIterator(); it.hasNext(); ) {
-                PVector p = it.next();
-
-                if (i % quality == 0 || i >= path.size() - quality) {
-                    PVector control = prev.copy().add(p).mult(0.5f);
-                    applet.quadraticVertex(prev.x, prev.y, control.x, control.y);
-                    prev = p;
-                }
-
-                i++;
-            }
-
-            applet.endShape();
-        }
+        path.draw(applet);
     }
 
     public PVector getEyePos() {

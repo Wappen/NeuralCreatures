@@ -5,9 +5,9 @@ import me.wappen.neuralcreatures.Entity;
 import processing.core.PVector;
 
 public record VisionSense(Creature creature) implements Sense {
-    private static final float eyeDist = 20;
-    private static final int res = 5;
-    private static final float theta = 0.2f;
+    private static final float eyeDist = 20; // dist of the so called 'eyes' from the 'real' 'eye'
+    private static final int res = 5; // num of 'eyes'
+    private static final float fov = 1f; // radians
 
     @Override
     public double[] get() {
@@ -16,10 +16,10 @@ public record VisionSense(Creature creature) implements Sense {
         PVector eyePos = creature.getEyePos();
         PVector dir = creature.getTransform().getDir().copy().mult(eyeDist);
 
-        dir.rotate((-res * theta) / 2f);
+        dir.rotate((-res * (fov / res)) / 2f);
 
         for (int i = 0; i < res; i++) {
-            dir.rotate(theta);
+            dir.rotate(fov / res);
             Entity hit = creature.getWorld().getEntityAtCoord(eyePos.copy().add(dir));
 
             if (hit instanceof Colorable entity) {

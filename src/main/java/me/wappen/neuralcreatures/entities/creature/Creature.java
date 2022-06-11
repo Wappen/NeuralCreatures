@@ -1,9 +1,6 @@
 package me.wappen.neuralcreatures.entities.creature;
 
-import me.wappen.neuralcreatures.Entity;
-import me.wappen.neuralcreatures.Main;
-import me.wappen.neuralcreatures.Transform;
-import me.wappen.neuralcreatures.Transformable;
+import me.wappen.neuralcreatures.*;
 import me.wappen.neuralcreatures.neural.NNUtils;
 import me.wappen.neuralcreatures.neural.builder.LayeredNetworkBuilder;
 import me.wappen.neuralcreatures.neural.Network;
@@ -14,7 +11,7 @@ import java.util.Deque;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-public class Creature extends Entity implements Transformable {
+public class Creature extends Entity implements Transformable, Colorable {
     private final Transform transform;
 
     private final float speed;
@@ -145,5 +142,10 @@ public class Creature extends Entity implements Transformable {
     @Override
     public Transform getTransform() {
         return transform;
+    }
+
+    @Override
+    public PVector getColor() {
+        return color;
     }
 }

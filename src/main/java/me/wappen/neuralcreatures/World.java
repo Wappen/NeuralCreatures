@@ -20,8 +20,13 @@ public class World implements Tickable, Drawable {
         entities = new HashMap<>();
         deferredTasks = new LinkedList<>();
 
-        massSpawn(pos -> spawn(new Creature(pos)), 1000, new PVector(-1000, -1000), new PVector(1000, 1000));
-        massSpawn(pos -> spawn(new Plant(pos)), 1000, new PVector(-1000, -1000), new PVector(1000, 1000));
+        float worldSize = 100;
+
+        massSpawn(pos -> spawn(new Creature(pos)), 100,
+                new PVector(-worldSize, -worldSize), new PVector(worldSize, worldSize));
+
+        massSpawn(pos -> spawn(new Plant(pos)), 1000,
+                new PVector(-worldSize, -worldSize), new PVector(worldSize, worldSize));
     }
 
     public Entity getEntityAtCoord(PVector coord) {

@@ -1,12 +1,13 @@
 package me.wappen.neuralcreatures.entities;
 
+import me.wappen.neuralcreatures.Colorable;
 import me.wappen.neuralcreatures.Entity;
 import me.wappen.neuralcreatures.Transform;
 import me.wappen.neuralcreatures.Transformable;
 import processing.core.PApplet;
 import processing.core.PVector;
 
-public class Plant extends Entity implements Transformable {
+public class Plant extends Entity implements Transformable, Colorable {
 
     private final Transform transform;
 
@@ -29,5 +30,10 @@ public class Plant extends Entity implements Transformable {
     @Override
     public Transform getTransform() {
         return transform;
+    }
+
+    @Override
+    public PVector getColor() {
+        return new PVector(60, 255, 60);
     }
 }

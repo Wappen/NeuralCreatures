@@ -18,6 +18,7 @@ public class Creature extends Entity implements Transformable {
     private final Transform transform;
 
     private final float speed;
+    private final PVector color;
 
     private final Senses senses;
     private final Muscles muscles;
@@ -48,6 +49,8 @@ public class Creature extends Entity implements Transformable {
         this.brain = nb.build();
 
         path = new LinkedList<>();
+        //color = new PVector(255, 100, 100);
+        color = PVector.random3D().add(1, 1, 1).mult(0.5f).mult(255);
     }
 
     public void move(PVector dir) {
@@ -82,19 +85,19 @@ public class Creature extends Entity implements Transformable {
         PVector dir = transform.getDir();
 
         // Draw body
-        applet.fill(255, 100, 100);
+        applet.fill(color.x, color.y, color.z);
         applet.ellipse(pos.x, pos.y, size.x, size.y);
 
         // Draw eye
         PVector eyePos = pos.copy().add(dir.copy().mult(size.mag() / 4));
         applet.fill(255);
-        applet.stroke(255, 100, 100);
+        applet.stroke(color.x, color.y, color.z);
         applet.strokeWeight(0.666f);
         applet.ellipse(eyePos.x, eyePos.y, size.x / 2, size.y / 2);
         applet.noStroke();
 
         // Draw pupil
-        PVector pupilPos = eyePos.add(dir.copy().rotate(smoothSquareWave(ticks / 30f)));
+        PVector pupilPos = eyePos.add(dir.copy().rotate(smoothSquareWave(ticks / 30f + color.x)));
         applet.fill(0);
         applet.ellipse(pupilPos.x, pupilPos.y, size.x / 5, size.y / 5);
 

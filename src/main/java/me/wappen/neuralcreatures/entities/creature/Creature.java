@@ -56,6 +56,10 @@ public class Creature extends Entity implements Transformable {
 
     @Override
     public void tick() {
+        // TODO: Change to energy dependent despawn
+        if (Float.isNaN(transform.getDir().x) || Float.isNaN(transform.getDir().y) || transform.getDir().mag() == 0)
+            getWorld().deferTask(() -> getWorld().despawn(this));
+
         ticks++;
 
         float ticksBetweenSection = 15;
@@ -80,19 +84,18 @@ public class Creature extends Entity implements Transformable {
         applet.fill(255, 100, 100);
         applet.ellipse(pos.x, pos.y, size.x, size.y);
 
-        // Draw face
-        PVector facePos = pos.copy().add(dir.copy().mult(size.mag() / 4));
-        applet.ellipse(facePos.x, facePos.y, size.x / 1.5f, size.y / 1.5f);
-
         // Draw eye
+        PVector eyePos = pos.copy().add(dir.copy().mult(size.mag() / 4));
         applet.fill(255);
-        applet.ellipse(facePos.x, facePos.y, size.x / 2, size.y / 2);
-
+        applet.stroke(255, 100, 100);
+        applet.strokeWeight(0.666f);
+        applet.ellipse(eyePos.x, eyePos.y, size.x / 2, size.y / 2);
+        applet.noStroke();
 
         // Draw pupil
-        PVector eyeDir = dir.copy().rotate(smoothSquareWave(ticks / 30f));
+        PVector pupilPos = eyePos.add(dir.copy().rotate(smoothSquareWave(ticks / 30f)));
         applet.fill(0);
-        applet.ellipse(facePos.x + eyeDir.x, facePos.y + eyeDir.y, size.x / 5, size.y / 5);
+        applet.ellipse(pupilPos.x, pupilPos.y, size.x / 5, size.y / 5);
 
         // Draw path
         if (!path.isEmpty()) {

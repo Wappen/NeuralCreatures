@@ -5,9 +5,7 @@ import me.wappen.neuralcreatures.entities.Plant;
 import processing.core.PApplet;
 import processing.core.PVector;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.function.Consumer;
 
 public class World implements Tickable, Drawable {
@@ -15,12 +13,19 @@ public class World implements Tickable, Drawable {
     Random rng;
     private final Map<Long, Entity> entities;
 
+    Queue<Runnable> deferredTasks;
+
     public World() {
         rng = new Random();
         entities = new HashMap<>();
+        deferredTasks = new LinkedList<>();
 
         massSpawn(pos -> spawn(new Creature(pos)), 1000, new PVector(-1000, -1000), new PVector(1000, 1000));
         massSpawn(pos -> spawn(new Plant(pos)), 1000, new PVector(-1000, -1000), new PVector(1000, 1000));
+    }
+
+    public void deferTask(Runnable task) {
+        deferredTasks.add(task);
     }
 
     public void massSpawn(Consumer<PVector> posConsumer, int num, PVector topLeft, PVector bottomRight) {
@@ -52,6 +57,9 @@ public class World implements Tickable, Drawable {
 
     @Override
     public void tick() {
+        while (!deferredTasks.isEmpty())
+            deferredTasks.remove().run();
+
         for (Entity entity : entities.values()) {
             entity.tick();
         }

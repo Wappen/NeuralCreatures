@@ -22,10 +22,9 @@ public class Creature extends Entity implements Transformable {
     private final Muscles muscles;
     private final Network brain;
 
-    private final Deque<PVector> path;
+    private int ticks = 0;
 
-    private final float pathLength = 10000;
-    private final float pathSectionLength = 100;
+    private final Deque<PVector> path;
 
     public Creature(PVector pos) {
         this.transform = new Transform(pos, new PVector(10, 10));
@@ -56,8 +55,17 @@ public class Creature extends Entity implements Transformable {
 
     @Override
     public void tick() {
-        if (path.isEmpty() || path.peekLast().dist(transform.getPos()) > pathSectionLength)
+        ticks++;
+
+        float ticksBetweenSection = 15;
+        float pathSections = 100;
+
+        if (path.isEmpty() || ticks % ticksBetweenSection == 0)
             path.add(transform.getPos().copy());
+
+        while (path.size() > pathSections)
+            path.remove();
+
         brain.process(senses, muscles);
     }
 
@@ -97,9 +105,6 @@ public class Creature extends Entity implements Transformable {
             applet.quadraticVertex(control.x, control.y, prev.x, prev.y);
 
             applet.endShape();
-
-            while (path.size() > pathLength / pathSectionLength + 1)
-                path.remove();
         }
     }
 

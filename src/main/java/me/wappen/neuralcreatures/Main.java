@@ -51,8 +51,8 @@ public class Main extends PApplet {
                     .normalize().mult(moveSpeed));
 
             camera.tick();
-            simulate();
             world.draw(this);
+            simulate();
 
             if (selected != null) {
                 Transform transform = ((Transformable) selected).getTransform();
@@ -141,9 +141,9 @@ public class Main extends PApplet {
     }
 
     public PVector mousePos() {
-        PVector size = camera.getTransform().getSize();
-        PVector pos = camera.getTransform().getPos();
-        return new PVector((mouseX - width / 2f) / size.x + pos.x, (mouseY - height / 2f) / size.y + pos.y);
+        PVector s = camera.getTransform().getSize();
+        PVector p = camera.getTransform().getPos();
+        return new PVector((mouseX - width / 2f) / s.x + p.x, (mouseY - height / 2f) / s.y + p.y);
     }
 
     public static void main(String[] args) {

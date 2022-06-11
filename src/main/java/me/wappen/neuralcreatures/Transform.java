@@ -12,11 +12,11 @@ public class Transform {
     }
 
     public Transform(PVector pos) {
-        this(pos, new PVector(1, 1));
+        this(pos.copy(), new PVector(1, 1));
     }
 
     public Transform(PVector pos, PVector size) {
-        this(pos, size, new PVector(0, 1));
+        this(pos.copy(), size.copy(), new PVector(0, 1));
     }
 
     public Transform(PVector pos, PVector size, PVector dir) {
@@ -48,7 +48,7 @@ public class Transform {
     }
 
     public void setPos(PVector pos) {
-        this.pos = pos;
+        this.pos = pos.copy();
     }
 
     public PVector getSize() {
@@ -56,7 +56,7 @@ public class Transform {
     }
 
     public void setSize(PVector size) {
-        this.size = size;
+        this.size = size.copy();
     }
 
     public PVector getDir() {
@@ -64,7 +64,6 @@ public class Transform {
     }
 
     public void setDir(PVector dir) {
-        this.dir = dir;
-        this.dir.normalize();
+        this.dir = dir.copy().normalize();
     }
 }

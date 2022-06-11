@@ -55,7 +55,7 @@ public class Creature extends Entity implements Transformable {
 
     public void move(PVector dir) {
         transform.setDir(dir);
-        transform.translate(dir.mult(speed));
+        transform.translate(dir.copy().mult(speed));
     }
 
     @Override
@@ -89,7 +89,7 @@ public class Creature extends Entity implements Transformable {
         applet.ellipse(pos.x, pos.y, size.x, size.y);
 
         // Draw eye
-        PVector eyePos = pos.copy().add(dir.copy().mult(size.mag() / 4));
+        PVector eyePos = getEyePos();
         applet.fill(255);
         applet.stroke(color.x, color.y, color.z);
         applet.strokeWeight(0.666f);
@@ -128,6 +128,14 @@ public class Creature extends Entity implements Transformable {
 
             applet.endShape();
         }
+    }
+
+    public PVector getEyePos() {
+        PVector pos = transform.getPos();
+        PVector dir = transform.getDir();
+        PVector size = transform.getSize();
+
+        return pos.copy().add(dir.copy().mult(size.mag() / 4));
     }
 
     private float smoothSquareWave(float t) {

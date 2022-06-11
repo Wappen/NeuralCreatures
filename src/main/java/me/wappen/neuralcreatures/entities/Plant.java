@@ -1,8 +1,8 @@
-package me.wappen.neuralcreature.entities;
+package me.wappen.neuralcreatures.entities;
 
-import me.wappen.neuralcreature.Entity;
-import me.wappen.neuralcreature.Transform;
-import me.wappen.neuralcreature.Transformable;
+import me.wappen.neuralcreatures.Entity;
+import me.wappen.neuralcreatures.Transform;
+import me.wappen.neuralcreatures.Transformable;
 import processing.core.PApplet;
 import processing.core.PVector;
 

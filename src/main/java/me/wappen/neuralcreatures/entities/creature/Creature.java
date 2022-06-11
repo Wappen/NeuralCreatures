@@ -1,11 +1,11 @@
-package me.wappen.neuralcreature.entities.creature;
+package me.wappen.neuralcreatures.entities.creature;
 
-import me.wappen.neuralcreature.Entity;
-import me.wappen.neuralcreature.Transform;
-import me.wappen.neuralcreature.Transformable;
-import me.wappen.neuralcreature.neural.Functions;
-import me.wappen.neuralcreature.neural.builder.LayeredNetworkBuilder;
-import me.wappen.neuralcreature.neural.Network;
+import me.wappen.neuralcreatures.Entity;
+import me.wappen.neuralcreatures.Transform;
+import me.wappen.neuralcreatures.Transformable;
+import me.wappen.neuralcreatures.neural.Functions;
+import me.wappen.neuralcreatures.neural.builder.LayeredNetworkBuilder;
+import me.wappen.neuralcreatures.neural.Network;
 import processing.core.PApplet;
 import processing.core.PVector;
 

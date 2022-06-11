@@ -1,4 +1,4 @@
-package me.wappen.neuralcreature;
+package me.wappen.neuralcreatures;
 
 import processing.core.PVector;
 

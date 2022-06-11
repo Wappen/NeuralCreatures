@@ -1,4 +1,4 @@
-package me.wappen.neuralcreature.neural;
+package me.wappen.neuralcreatures.neural;
 
 import java.util.ArrayList;
 import java.util.List;

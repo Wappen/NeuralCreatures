@@ -1,7 +1,7 @@
-package me.wappen.neuralcreature.neural.builder;
+package me.wappen.neuralcreatures.neural.builder;
 
-import me.wappen.neuralcreature.neural.Functions;
-import me.wappen.neuralcreature.neural.Network;
+import me.wappen.neuralcreatures.neural.Functions;
+import me.wappen.neuralcreatures.neural.Network;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package me.wappen.neuralcreature.entities.creature;
+package me.wappen.neuralcreatures.entities.creature;
 
 public record VisionSense(Creature creature) implements Sense {
 

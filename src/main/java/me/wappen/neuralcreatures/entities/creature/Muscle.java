@@ -1,4 +1,4 @@
-package me.wappen.neuralcreature.entities.creature;
+package me.wappen.neuralcreatures.entities.creature;
 
 public interface Muscle {
     void accept(double[] output);

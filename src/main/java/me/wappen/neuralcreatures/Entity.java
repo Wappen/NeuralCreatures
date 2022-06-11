@@ -1,4 +1,4 @@
-package me.wappen.neuralcreature;
+package me.wappen.neuralcreatures;
 
 public abstract class Entity implements Tickable, Drawable {
     private static long staticId; // used to set new id on construction

@@ -1,7 +1,7 @@
 package me.wappen.neuralcreatures.entities.creature.genes;
 
-import me.wappen.neuralcreatures.entities.creature.Creature;
-
 public interface Gene {
-    void activate(Creature creature);
+    void applyTo(Genome genome);
+    void deserialize(double[] sequence);
+    double[] serialize();
 }

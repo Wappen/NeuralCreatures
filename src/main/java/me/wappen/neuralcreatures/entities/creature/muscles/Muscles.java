@@ -1,4 +1,4 @@
-package me.wappen.neuralcreatures.entities.creature;
+package me.wappen.neuralcreatures.entities.creature.muscles;
 
 import java.util.ArrayList;
 import java.util.Arrays;

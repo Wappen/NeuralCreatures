@@ -2,6 +2,11 @@ package me.wappen.neuralcreatures.entities.creature;
 
 import me.wappen.neuralcreatures.*;
 import me.wappen.neuralcreatures.entities.Entity;
+import me.wappen.neuralcreatures.entities.creature.muscles.MoveMuscle;
+import me.wappen.neuralcreatures.entities.creature.muscles.Muscles;
+import me.wappen.neuralcreatures.entities.creature.senses.KeyboardSense;
+import me.wappen.neuralcreatures.entities.creature.senses.Senses;
+import me.wappen.neuralcreatures.entities.creature.senses.VisionSense;
 import me.wappen.neuralcreatures.neural.NNUtils;
 import me.wappen.neuralcreatures.neural.builder.LayeredNetworkBuilder;
 import me.wappen.neuralcreatures.neural.Network;

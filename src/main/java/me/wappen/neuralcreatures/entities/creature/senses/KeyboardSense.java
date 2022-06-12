@@ -1,4 +1,4 @@
-package me.wappen.neuralcreatures.entities.creature;
+package me.wappen.neuralcreatures.entities.creature.senses;
 
 import me.wappen.neuralcreatures.Main;
 

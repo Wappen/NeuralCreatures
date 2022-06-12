@@ -1,4 +1,6 @@
-package me.wappen.neuralcreatures.entities.creature;
+package me.wappen.neuralcreatures.entities.creature.muscles;
+
+import me.wappen.neuralcreatures.entities.creature.Creature;
 
 public record MoveMuscle(Creature creature) implements Muscle {
 

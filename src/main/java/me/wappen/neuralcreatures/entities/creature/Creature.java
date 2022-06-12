@@ -25,6 +25,16 @@ public class Creature extends Entity implements Transformable, Colorable {
 
     private final Path path;
 
+    public Creature(Transform transform, float speed, PVector color, Senses senses, Muscles muscles, Network brain, Path path) {
+        this.transform = transform;
+        this.speed = speed;
+        this.color = color;
+        this.senses = senses;
+        this.muscles = muscles;
+        this.brain = brain;
+        this.path = path;
+    }
+
     public Creature(PVector pos) {
         this.transform = new Transform(pos, new PVector(10, 10), PVector.random2D());
         this.speed = 1;

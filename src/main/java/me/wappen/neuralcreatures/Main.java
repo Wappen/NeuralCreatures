@@ -5,8 +5,6 @@ import processing.core.PVector;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 public class Main extends PApplet {
     private static Main instance;
 
@@ -14,7 +12,6 @@ public class Main extends PApplet {
     private float moveSpeed = 2.0f;
 
     private Camera camera;
-    private World world;
     private Simulator simulator;
     private Entity selected = null;
 
@@ -32,12 +29,13 @@ public class Main extends PApplet {
     public void setup() {
         surface.setResizable(true);
         surface.setFrameRate(90);
-        world = new World();
-        simulator = new Simulator(world);
+        simulator = new Simulator(new World());
     }
 
     @Override
     public void draw() {
+        // TODO: Make pause better -> currently not possible to move through world
+
         if (simulator.isRealtime()) {
             translate(width / 2f, height / 2f); // Translate to center
             scale(camera.getTransform().getSize().x, camera.getTransform().getSize().y);
@@ -49,7 +47,7 @@ public class Main extends PApplet {
                     .normalize().mult(moveSpeed));
 
             camera.tick();
-            world.draw(this);
+            simulator.getWorld().draw(this);
             simulator.tick();
 
             if (selected != null) {
@@ -63,21 +61,13 @@ public class Main extends PApplet {
                 ellipse(pos.x, pos.y, size.x, size.y);
             }
         }
-        else if (simulator.isFastForward()) {
+        else {
             fill(255, 255, 255);
             stroke(0);
             strokeWeight(0);
             textSize(100);
             textAlign(LEFT, TOP);
-            text(">>", 0, 0);
-        }
-        else if (simulator.isPaused()) {
-            fill(255, 255, 255);
-            stroke(0);
-            strokeWeight(0);
-            textSize(100);
-            textAlign(LEFT, TOP);
-            text("||", 0, 0);
+            text(simulator.isFastForward() ? ">>" : simulator.isPaused() ? "||" : "???", 0, 0);
         }
     }
 
@@ -117,7 +107,7 @@ public class Main extends PApplet {
     @Override
     public void mousePressed(MouseEvent event) {
         if (event.getButton() == LEFT) {
-            selectEntity(world.getEntityAtCoord(mousePos()));
+            selectEntity(simulator.getWorld().getEntityAtCoord(mousePos()));
         }
     }
 

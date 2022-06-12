@@ -67,6 +67,10 @@ public class Simulator implements Tickable {
         return paused.get();
     }
 
+    public World getWorld() {
+        return world;
+    }
+
     private static class AtomicToggleBoolean {
         private final AtomicInteger val;
 

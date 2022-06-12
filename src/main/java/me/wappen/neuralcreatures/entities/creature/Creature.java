@@ -23,7 +23,7 @@ public class Creature extends Entity implements Transformable, Colorable {
     private final Muscles muscles;
     private final Network brain;
 
-    Path path;
+    private final Path path;
 
     public Creature(PVector pos) {
         this.transform = new Transform(pos, new PVector(10, 10));

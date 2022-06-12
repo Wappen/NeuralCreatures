@@ -1,7 +1,7 @@
 package me.wappen.neuralcreatures.entities.creature;
 
 import me.wappen.neuralcreatures.Colorable;
-import me.wappen.neuralcreatures.Entity;
+import me.wappen.neuralcreatures.entities.Entity;
 import processing.core.PVector;
 
 public record VisionSense(Creature creature) implements Sense {

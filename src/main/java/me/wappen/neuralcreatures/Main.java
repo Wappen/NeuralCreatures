@@ -1,5 +1,6 @@
 package me.wappen.neuralcreatures;
 
+import me.wappen.neuralcreatures.entities.Entity;
 import processing.core.PApplet;
 import processing.core.PVector;
 import processing.event.KeyEvent;

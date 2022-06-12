@@ -1,7 +1,6 @@
 package me.wappen.neuralcreatures.entities;
 
 import me.wappen.neuralcreatures.Colorable;
-import me.wappen.neuralcreatures.Entity;
 import me.wappen.neuralcreatures.Transform;
 import me.wappen.neuralcreatures.Transformable;
 import processing.core.PApplet;

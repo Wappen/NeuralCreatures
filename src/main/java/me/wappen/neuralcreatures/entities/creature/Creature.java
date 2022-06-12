@@ -1,15 +1,12 @@
 package me.wappen.neuralcreatures.entities.creature;
 
 import me.wappen.neuralcreatures.*;
+import me.wappen.neuralcreatures.entities.Entity;
 import me.wappen.neuralcreatures.neural.NNUtils;
 import me.wappen.neuralcreatures.neural.builder.LayeredNetworkBuilder;
 import me.wappen.neuralcreatures.neural.Network;
 import processing.core.PApplet;
 import processing.core.PVector;
-
-import java.util.Deque;
-import java.util.Iterator;
-import java.util.LinkedList;
 
 public class Creature extends Entity implements Transformable, Colorable {
     private final Transform transform;

@@ -1,5 +1,6 @@
 package me.wappen.neuralcreatures;
 
+import me.wappen.neuralcreatures.entities.Entity;
 import me.wappen.neuralcreatures.entities.creature.Creature;
 import me.wappen.neuralcreatures.entities.Plant;
 import processing.core.PApplet;

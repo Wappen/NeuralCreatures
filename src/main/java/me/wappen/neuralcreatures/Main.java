@@ -15,10 +15,7 @@ public class Main extends PApplet {
 
     private Camera camera;
     private World world;
-
-    private final AtomicInteger fastForward = new AtomicInteger(0);
-    private Thread simulationThread;
-
+    private Simulator simulator;
     private Entity selected = null;
 
     public Main() {
@@ -36,11 +33,12 @@ public class Main extends PApplet {
         surface.setResizable(true);
         surface.setFrameRate(90);
         world = new World();
+        simulator = new Simulator(world);
     }
 
     @Override
     public void draw() {
-        if (!isFastForward()) {
+        if (simulator.isRealtime()) {
             translate(width / 2f, height / 2f); // Translate to center
             scale(camera.getTransform().getSize().x, camera.getTransform().getSize().y);
             translate(-camera.getTransform().getPos().x, -camera.getTransform().getPos().y); // Apply camera transform
@@ -52,7 +50,7 @@ public class Main extends PApplet {
 
             camera.tick();
             world.draw(this);
-            simulate();
+            simulator.tick();
 
             if (selected != null) {
                 Transform transform = ((Transformable) selected).getTransform();
@@ -65,40 +63,22 @@ public class Main extends PApplet {
                 ellipse(pos.x, pos.y, size.x, size.y);
             }
         }
-        else {
+        else if (simulator.isFastForward()) {
             fill(255, 255, 255);
             stroke(0);
             strokeWeight(0);
             textSize(100);
-            textAlign(CENTER, CENTER);
-            text(">>", width / 2f, height / 2f);
+            textAlign(LEFT, TOP);
+            text(">>", 0, 0);
         }
-    }
-
-    private void simulate() {
-        do {
-            world.tick();
-        } while(isFastForward());
-    }
-
-    private void toggleFastForward() {
-        fastForward.getAndIncrement();
-
-        if (isFastForward()) {
-            simulationThread = new Thread(this::simulate);
-            simulationThread.start();
+        else if (simulator.isPaused()) {
+            fill(255, 255, 255);
+            stroke(0);
+            strokeWeight(0);
+            textSize(100);
+            textAlign(LEFT, TOP);
+            text("||", 0, 0);
         }
-        else {
-            try {
-                simulationThread.join();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
-    }
-
-    private boolean isFastForward() {
-        return fastForward.get() % 2 != 0;
     }
 
     private void selectEntity(Entity entity) {
@@ -114,7 +94,8 @@ public class Main extends PApplet {
             case 'D' -> cameraMove.x = 1;
             case SHIFT -> moveSpeed = 50;
             case CONTROL -> moveSpeed = 1;
-            case 113 /* F2 */ -> toggleFastForward();
+            case TAB -> simulator.toggleFastForward();
+            case ' ' -> simulator.togglePause();
         }
     }
 

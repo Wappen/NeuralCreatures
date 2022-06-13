@@ -3,9 +3,9 @@ package me.wappen.neuralcreatures.entities.creature;
 import me.wappen.neuralcreatures.*;
 import me.wappen.neuralcreatures.entities.Entity;
 import me.wappen.neuralcreatures.entities.creature.muscles.MoveMuscle;
-import me.wappen.neuralcreatures.entities.creature.muscles.Muscles;
+import me.wappen.neuralcreatures.entities.creature.muscles.MuscleSystem;
 import me.wappen.neuralcreatures.entities.creature.senses.KeyboardSense;
-import me.wappen.neuralcreatures.entities.creature.senses.Senses;
+import me.wappen.neuralcreatures.entities.creature.senses.SensorySystem;
 import me.wappen.neuralcreatures.entities.creature.senses.VisionSense;
 import me.wappen.neuralcreatures.neural.NNUtils;
 import me.wappen.neuralcreatures.neural.builder.LayeredNetworkBuilder;
@@ -19,8 +19,8 @@ public class Creature extends Entity implements Transformable, Colorable, Creatu
     private final float speed;
     private final PVector color;
 
-    private final Senses senses;
-    private final Muscles muscles;
+    private final SensorySystem senses;
+    private final MuscleSystem muscles;
     private final Network brain;
 
     private final Path path;
@@ -29,11 +29,11 @@ public class Creature extends Entity implements Transformable, Colorable, Creatu
         this.transform = new Transform(pos, new PVector(10, 10), PVector.random2D());
         this.speed = 1;
 
-        senses = new Senses();
+        senses = new SensorySystem();
         senses.addSense(new VisionSense());
         senses.addSense(new KeyboardSense());
 
-        muscles = new Muscles();
+        muscles = new MuscleSystem();
         muscles.addMuscle(new MoveMuscle());
 
         LayeredNetworkBuilder nb = new LayeredNetworkBuilder(NNUtils::reLU);
@@ -54,9 +54,9 @@ public class Creature extends Entity implements Transformable, Colorable, Creatu
         this.transform = new Transform(new PVector(0, 0), new PVector(10, 10), PVector.random2D());
         this.speed = state.getSpeed();
         this.color = state.getColor();
-        this.senses = state.getSenses(); // TODO: Maybe copy senses and muscles and brain???
-        this.muscles = state.getMuscles();
-        this.brain = state.getBrain();
+        this.senses = (SensorySystem) state.getSenses().copy(); // TODO: Maybe copy senses and muscles and brain???
+        this.muscles = (MuscleSystem) state.getMuscles().copy();
+        this.brain = state.getBrain().copy();
         this.path = new Path(this);
     }
 
@@ -130,12 +130,12 @@ public class Creature extends Entity implements Transformable, Colorable, Creatu
     }
 
     @Override
-    public Senses getSenses() {
+    public SensorySystem getSenses() {
         return senses;
     }
 
     @Override
-    public Muscles getMuscles() {
+    public MuscleSystem getMuscles() {
         return muscles;
     }
 

@@ -5,7 +5,7 @@ import me.wappen.neuralcreatures.entities.creature.Creature;
 public class MoveMuscle implements Muscle {
 
     @Override
-    public void accept(double[] output, Creature creature) {
+    public void handle(double[] output, Creature creature) {
         float scale = 20; // Scale for output because of many very high values
 
         float left = (Math.min(Math.max((float) output[0] / scale, -1), 1) + 1);
@@ -19,5 +19,14 @@ public class MoveMuscle implements Muscle {
     @Override
     public int getResolution() {
         return 3;
+    }
+
+    @Override
+    public MoveMuscle copy() {
+        try {
+            return (MoveMuscle) this.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

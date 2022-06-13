@@ -18,4 +18,13 @@ public class KeyboardSense implements Sense {
     public int getResolution() {
         return 1;
     }
+
+    @Override
+    public Sense copy() {
+        try {
+            return (Sense) this.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

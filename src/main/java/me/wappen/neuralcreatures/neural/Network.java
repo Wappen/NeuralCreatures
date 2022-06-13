@@ -6,16 +6,40 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class Network {
+    public record Neuron(double bias, List<Axon> inputAxons, Function<Double, Double> activation) {
 
-    public record Neuron(double bias, List<Axon> inputAxons, Function<Double, Double> activation) { }
-    public record Axon(Neuron previous, double weight) { }
+        public Neuron copy() {
+            List<Axon> axons = new ArrayList<>();
+
+            for (Axon inputAxon : inputAxons) {
+                axons.add(inputAxon.copy());
+            }
+
+            return new Neuron(bias, axons, activation);
+        }
+    }
+
+    public record Axon(Neuron previous, double weight) {
+        public Axon copy() {
+            return new Axon(previous.copy(), weight); // TODO: Duplicate neurons are duplicated
+        }
+    }
 
     final List<Neuron> inputs;
-    final List<Neuron> outputs;
 
+    final List<Neuron> outputs;
     public Network() {
         inputs = new LinkedList<>();
         outputs = new LinkedList<>();
+    }
+
+    public Network(Network network) {
+        inputs = new LinkedList<>();
+        outputs = new LinkedList<>();
+
+        for (Neuron output : outputs) {
+            outputs.add(output.copy());
+        }
     }
 
     public Network(List<Neuron> inputs, List<Neuron> outputs) {
@@ -62,5 +86,9 @@ public class Network {
         }
 
         return neuron.activation().apply(sum);
+    }
+
+    public Network copy() {
+        return new Network(this);
     }
 }

@@ -1,8 +1,8 @@
 package me.wappen.neuralcreatures.entities.creature.genetic;
 
 import me.wappen.neuralcreatures.entities.creature.CreatureState;
-import me.wappen.neuralcreatures.entities.creature.muscles.Muscles;
-import me.wappen.neuralcreatures.entities.creature.senses.Senses;
+import me.wappen.neuralcreatures.entities.creature.muscles.MuscleSystem;
+import me.wappen.neuralcreatures.entities.creature.senses.SensorySystem;
 import me.wappen.neuralcreatures.neural.Network;
 import processing.core.PVector;
 
@@ -10,8 +10,8 @@ public class CreaturePrototype implements CreatureState {
 
     private float speed = 0;
     private PVector color = new PVector(0, 0, 0);
-    private Senses senses = new Senses();
-    private Muscles muscles = new Muscles();
+    private SensorySystem senses = new SensorySystem();
+    private MuscleSystem muscles = new MuscleSystem();
     private Network brain = new Network();
 
     @Override
@@ -25,12 +25,12 @@ public class CreaturePrototype implements CreatureState {
     }
 
     @Override
-    public Senses getSenses() {
+    public SensorySystem getSenses() {
         return senses;
     }
 
     @Override
-    public Muscles getMuscles() {
+    public MuscleSystem getMuscles() {
         return muscles;
     }
 
@@ -47,11 +47,11 @@ public class CreaturePrototype implements CreatureState {
         this.color = color;
     }
 
-    public void setSenses(Senses senses) {
+    public void setSenses(SensorySystem senses) {
         this.senses = senses;
     }
 
-    public void setMuscles(Muscles muscles) {
+    public void setMuscles(MuscleSystem muscles) {
         this.muscles = muscles;
     }
 

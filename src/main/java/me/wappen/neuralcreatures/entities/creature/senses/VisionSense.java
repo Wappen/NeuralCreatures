@@ -43,4 +43,13 @@ public class VisionSense implements Sense {
     public int getResolution() {
         return res * 3;
     }
+
+    @Override
+    public Sense copy() {
+        try {
+            return (Sense) this.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

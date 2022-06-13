@@ -2,7 +2,6 @@ package me.wappen.neuralcreatures.entities.creature;
 
 import me.wappen.neuralcreatures.*;
 import me.wappen.neuralcreatures.entities.Entity;
-import me.wappen.neuralcreatures.entities.creature.genetic.Genome;
 import me.wappen.neuralcreatures.entities.creature.muscles.MoveMuscle;
 import me.wappen.neuralcreatures.entities.creature.muscles.Muscles;
 import me.wappen.neuralcreatures.entities.creature.senses.KeyboardSense;
@@ -51,13 +50,13 @@ public class Creature extends Entity implements Transformable, Colorable, Creatu
         color = PVector.random3D().add(1, 1, 1).mult(0.5f).mult(255);
     }
 
-    public Creature(Genome genome) {
+    public Creature(CreatureState state) {
         this.transform = new Transform(new PVector(0, 0), new PVector(10, 10), PVector.random2D());
-        this.speed = genome.getSpeed();
-        this.color = genome.getColor();
-        this.senses = genome.getSenses(); // TODO: Maybe copy senses and muscles???
-        this.muscles = genome.getMuscles();
-        this.brain = genome.getBrain();
+        this.speed = state.getSpeed();
+        this.color = state.getColor();
+        this.senses = state.getSenses(); // TODO: Maybe copy senses and muscles and brain???
+        this.muscles = state.getMuscles();
+        this.brain = state.getBrain();
         this.path = new Path(this);
     }
 
@@ -73,7 +72,7 @@ public class Creature extends Entity implements Transformable, Colorable, Creatu
             getWorld().deferTask(() -> getWorld().despawn(this));
 
         path.tick();
-        brain.process(() -> senses.get(this), (double[] out) -> muscles.accept(out, this));
+        brain.process(() -> senses.get(this), (double[] out) -> muscles.handle(out, this));
     }
 
     @Override

@@ -1,61 +1,26 @@
 package me.wappen.neuralcreatures.entities.creature.genetic;
 
-import me.wappen.neuralcreatures.entities.creature.CreatureState;
-import me.wappen.neuralcreatures.entities.creature.muscles.Muscles;
-import me.wappen.neuralcreatures.entities.creature.senses.Senses;
-import me.wappen.neuralcreatures.neural.Network;
-import processing.core.PVector;
+import java.util.LinkedList;
+import java.util.List;
 
-public class Genome implements CreatureState {
+public class Genome {
+    List<Gene> genes;
 
-    private float speed = 0;
-    private PVector color = new PVector(0, 0, 0);
-    private Senses senses = new Senses();
-    private Muscles muscles = new Muscles();
-    private Network brain = new Network();
-
-    @Override
-    public float getSpeed() {
-        return speed;
+    public Genome() {
+        this.genes = new LinkedList<>();
     }
 
-    @Override
-    public PVector getColor() {
-        return color;
+    public void addGene(Gene gene) {
+        genes.add(gene);
     }
 
-    @Override
-    public Senses getSenses() {
-        return senses;
-    }
+    public CreaturePrototype createPrototype() {
+        CreaturePrototype prototype = new CreaturePrototype();
 
-    @Override
-    public Muscles getMuscles() {
-        return muscles;
-    }
+        for (Gene gene : genes) {
+            gene.applyTo(prototype);
+        }
 
-    @Override
-    public Network getBrain() {
-        return brain;
-    }
-
-    public void setSpeed(float speed) {
-        this.speed = speed;
-    }
-
-    public void setColor(PVector color) {
-        this.color = color;
-    }
-
-    public void setSenses(Senses senses) {
-        this.senses = senses;
-    }
-
-    public void setMuscles(Muscles muscles) {
-        this.muscles = muscles;
-    }
-
-    public void setBrain(Network brain) {
-        this.brain = brain;
+        return prototype;
     }
 }

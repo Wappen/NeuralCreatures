@@ -1,4 +1,4 @@
-package me.wappen.neuralcreatures.entities.creature.genes;
+package me.wappen.neuralcreatures.entities.creature.genetic;
 
 public interface Gene {
     void applyTo(Genome genome);

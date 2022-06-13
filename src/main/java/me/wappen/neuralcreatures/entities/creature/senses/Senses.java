@@ -1,16 +1,18 @@
 package me.wappen.neuralcreatures.entities.creature.senses;
 
+import me.wappen.neuralcreatures.entities.creature.Creature;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.function.Supplier;
 
-public class Senses implements Sense, Supplier<double[]> {
+public class Senses implements Sense {
+
     final List<Sense> inputs;
 
     public Senses() {
-        inputs = new LinkedList<>();
+        this.inputs = new LinkedList<>();
     }
 
     public Senses(List<Sense> inputs) {
@@ -22,11 +24,11 @@ public class Senses implements Sense, Supplier<double[]> {
     }
 
     @Override
-    public double[] get() {
+    public double[] get(Creature creature) {
         List<double[]> values = new ArrayList<>();
 
         for (Sense input : inputs)
-            values.add(input.get());
+            values.add(input.get(creature));
 
         return values.stream().flatMapToDouble(Arrays::stream).toArray(); // Return values as single double[]
     }

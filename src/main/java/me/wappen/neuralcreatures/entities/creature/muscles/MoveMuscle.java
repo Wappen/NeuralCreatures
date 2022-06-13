@@ -2,10 +2,10 @@ package me.wappen.neuralcreatures.entities.creature.muscles;
 
 import me.wappen.neuralcreatures.entities.creature.Creature;
 
-public record MoveMuscle(Creature creature) implements Muscle {
+public class MoveMuscle implements Muscle {
 
     @Override
-    public void accept(double[] output) {
+    public void accept(double[] output, Creature creature) {
         float scale = 20; // Scale for output because of many very high values
 
         float left = (Math.min(Math.max((float) output[0] / scale, -1), 1) + 1);

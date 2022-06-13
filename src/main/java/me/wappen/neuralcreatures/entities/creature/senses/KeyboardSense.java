@@ -1,10 +1,11 @@
 package me.wappen.neuralcreatures.entities.creature.senses;
 
 import me.wappen.neuralcreatures.Main;
+import me.wappen.neuralcreatures.entities.creature.Creature;
 
 public class KeyboardSense implements Sense {
     @Override
-    public double[] get() {
+    public double[] get(Creature creature) {
         return new double[] { isPressed() ? 1 : 0 };
     }
 

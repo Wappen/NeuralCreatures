@@ -1,12 +1,13 @@
 package me.wappen.neuralcreatures.entities.creature.muscles;
 
+import me.wappen.neuralcreatures.entities.creature.Creature;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.function.Consumer;
 
-public class Muscles implements Muscle, Consumer<double[]> {
+public class Muscles implements Muscle {
     final List<Muscle> outputs;
 
     public Muscles() {
@@ -22,12 +23,12 @@ public class Muscles implements Muscle, Consumer<double[]> {
     }
 
     @Override
-    public void accept(double[] output) {
+    public void accept(double[] output, Creature creature) {
         List<Double> toHandle = new ArrayList<>(Arrays.stream(output).boxed().toList());
 
         for (Muscle o : outputs) {
             List<Double> values = toHandle.subList(0, o.getResolution());
-            o.accept(values.stream().mapToDouble(v -> v).toArray());
+            o.accept(values.stream().mapToDouble(v -> v).toArray(), creature);
             values.clear();
         }
     }
@@ -35,10 +36,5 @@ public class Muscles implements Muscle, Consumer<double[]> {
     @Override
     public int getResolution() {
         return outputs.stream().mapToInt(Muscle::getResolution).sum();
-    }
-
-    @Override
-    public Consumer<double[]> andThen(Consumer<? super double[]> after) {
-        return Consumer.super.andThen(after);
     }
 }

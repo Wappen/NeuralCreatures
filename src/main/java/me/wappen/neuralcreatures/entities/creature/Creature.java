@@ -2,6 +2,7 @@ package me.wappen.neuralcreatures.entities.creature;
 
 import me.wappen.neuralcreatures.*;
 import me.wappen.neuralcreatures.entities.Entity;
+import me.wappen.neuralcreatures.entities.creature.genetic.Genome;
 import me.wappen.neuralcreatures.entities.creature.muscles.MoveMuscle;
 import me.wappen.neuralcreatures.entities.creature.muscles.Muscles;
 import me.wappen.neuralcreatures.entities.creature.senses.KeyboardSense;
@@ -13,7 +14,7 @@ import me.wappen.neuralcreatures.neural.Network;
 import processing.core.PApplet;
 import processing.core.PVector;
 
-public class Creature extends Entity implements Transformable, Colorable {
+public class Creature extends Entity implements Transformable, Colorable, CreatureState {
     private final Transform transform;
 
     private final float speed;
@@ -25,26 +26,16 @@ public class Creature extends Entity implements Transformable, Colorable {
 
     private final Path path;
 
-    public Creature(Transform transform, float speed, PVector color, Senses senses, Muscles muscles, Network brain, Path path) {
-        this.transform = transform;
-        this.speed = speed;
-        this.color = color;
-        this.senses = senses;
-        this.muscles = muscles;
-        this.brain = brain;
-        this.path = path;
-    }
-
     public Creature(PVector pos) {
         this.transform = new Transform(pos, new PVector(10, 10), PVector.random2D());
         this.speed = 1;
 
         senses = new Senses();
-        senses.addSense(new VisionSense(this));
+        senses.addSense(new VisionSense());
         senses.addSense(new KeyboardSense());
 
         muscles = new Muscles();
-        muscles.addMuscle(new MoveMuscle(this));
+        muscles.addMuscle(new MoveMuscle());
 
         LayeredNetworkBuilder nb = new LayeredNetworkBuilder(NNUtils::reLU);
 
@@ -60,6 +51,16 @@ public class Creature extends Entity implements Transformable, Colorable {
         color = PVector.random3D().add(1, 1, 1).mult(0.5f).mult(255);
     }
 
+    public Creature(Genome genome) {
+        this.transform = new Transform(new PVector(0, 0), new PVector(10, 10), PVector.random2D());
+        this.speed = genome.getSpeed();
+        this.color = genome.getColor();
+        this.senses = genome.getSenses(); // TODO: Maybe copy senses and muscles???
+        this.muscles = genome.getMuscles();
+        this.brain = genome.getBrain();
+        this.path = new Path(this);
+    }
+
     public void move(PVector dir) {
         transform.setDir(dir);
         transform.translate(dir.copy().mult(speed));
@@ -72,7 +73,7 @@ public class Creature extends Entity implements Transformable, Colorable {
             getWorld().deferTask(() -> getWorld().despawn(this));
 
         path.tick();
-        brain.process(senses, muscles);
+        brain.process(() -> senses.get(this), (double[] out) -> muscles.accept(out, this));
     }
 
     @Override
@@ -120,7 +121,27 @@ public class Creature extends Entity implements Transformable, Colorable {
     }
 
     @Override
+    public float getSpeed() {
+        return speed;
+    }
+
+    @Override
     public PVector getColor() {
         return color;
+    }
+
+    @Override
+    public Senses getSenses() {
+        return senses;
+    }
+
+    @Override
+    public Muscles getMuscles() {
+        return muscles;
+    }
+
+    @Override
+    public Network getBrain() {
+        return brain;
     }
 }

@@ -39,7 +39,9 @@ public class Creature extends Entity implements Transformable, Colorable, Creatu
 
         senses = new SensorySystem();
         senses.addSense(new HealthSense());
-        senses.addSense(new VisionSense());
+        senses.addSense(new VisionSense(20, 2, 1));
+        senses.addSense(new VisionSense(40, 2, 1));
+        senses.addSense(new VisionSense(60, 4, 1));
 
         muscles = new MuscleSystem();
         muscles.addMuscle(new MoveMuscle());

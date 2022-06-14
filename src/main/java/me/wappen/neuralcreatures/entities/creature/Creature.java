@@ -74,7 +74,7 @@ public class Creature extends Entity implements Transformable, Colorable, Creatu
     public void tick() {
         float aggravationRate = 0.01f;
         float healRate = 0.001f;
-        float starvationRate = 0.00125f;
+        float starvationRate = 0.01f;
 
         if (energy <= 0)
             health -= aggravationRate;
@@ -130,7 +130,7 @@ public class Creature extends Entity implements Transformable, Colorable, Creatu
 
     public void move(PVector dir) {
         if (dir.mag() > 0) {
-            float exhaustionFactor = 0.005f;
+            float exhaustionFactor = 0.0005f;
             energy -= dir.mag() * exhaustionFactor;
             transform.setDir(dir);
             transform.translate(dir.copy().mult(speed));

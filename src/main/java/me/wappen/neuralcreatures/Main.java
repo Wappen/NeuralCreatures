@@ -35,9 +35,7 @@ public class Main extends PApplet {
 
     @Override
     public void draw() {
-        // TODO: Make pause better -> currently not possible to move through world
-
-        if (simulator.isRealtime()) {
+        if (!simulator.isFastForward()) {
             translate(width / 2f, height / 2f); // Translate to center
             scale(camera.getTransform().getSize(), camera.getTransform().getSize());
             translate(-camera.getTransform().getPos().x, -camera.getTransform().getPos().y); // Apply camera transform
@@ -49,7 +47,9 @@ public class Main extends PApplet {
 
             camera.tick();
             simulator.getWorld().draw(this);
-            simulator.tick();
+
+            if (simulator.isRealtime())
+                simulator.tick();
 
             if (selected != null) {
                 Transform transform = ((Transformable) selected).getTransform();

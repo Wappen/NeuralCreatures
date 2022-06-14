@@ -54,7 +54,7 @@ public class Creature extends Entity implements Transformable, Colorable, Creatu
         this.transform = new Transform(new PVector(0, 0), new PVector(10, 10), PVector.random2D());
         this.speed = state.getSpeed();
         this.color = state.getColor();
-        this.senses = (SensorySystem) state.getSenses().copy(); // TODO: Maybe copy senses and muscles and brain???
+        this.senses = (SensorySystem) state.getSenses().copy();
         this.muscles = (MuscleSystem) state.getMuscles().copy();
         this.brain = state.getBrain().copy();
         this.path = new Path(this);

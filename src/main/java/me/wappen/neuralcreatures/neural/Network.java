@@ -1,29 +1,15 @@
 package me.wappen.neuralcreatures.neural;
 
+import java.io.*;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public class Network {
-    public record Neuron(double bias, List<Axon> inputAxons, Function<Double, Double> activation) {
+public class Network implements Serializable {
+    public record Neuron(double bias, List<Axon> inputAxons, Function<Double, Double> activation) implements Serializable { }
 
-        public Neuron copy() {
-            List<Axon> axons = new ArrayList<>();
-
-            for (Axon inputAxon : inputAxons) {
-                axons.add(inputAxon.copy());
-            }
-
-            return new Neuron(bias, axons, activation);
-        }
-    }
-
-    public record Axon(Neuron previous, double weight) {
-        public Axon copy() {
-            return new Axon(previous.copy(), weight); // TODO: Duplicate neurons are duplicated
-        }
-    }
+    public record Axon(Neuron previous, double weight) implements Serializable { }
 
     final List<Neuron> inputs;
 
@@ -31,15 +17,6 @@ public class Network {
     public Network() {
         inputs = new LinkedList<>();
         outputs = new LinkedList<>();
-    }
-
-    public Network(Network network) {
-        inputs = new LinkedList<>();
-        outputs = new LinkedList<>();
-
-        for (Neuron output : outputs) {
-            outputs.add(output.copy());
-        }
     }
 
     public Network(List<Neuron> inputs, List<Neuron> outputs) {
@@ -89,6 +66,18 @@ public class Network {
     }
 
     public Network copy() {
-        return new Network(this);
+        try {
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ObjectOutputStream out = new ObjectOutputStream(bos);
+            out.writeObject(this);
+            out.flush();
+            out.close();
+
+            ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(bos.toByteArray()));
+            return (Network) in.readObject();
+
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

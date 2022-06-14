@@ -1,29 +1,38 @@
 package me.wappen.neuralcreatures.entities;
 
 import me.wappen.neuralcreatures.Colorable;
+import me.wappen.neuralcreatures.Main;
 import me.wappen.neuralcreatures.Transform;
 import me.wappen.neuralcreatures.Transformable;
 import processing.core.PApplet;
 import processing.core.PVector;
 
-public class Plant extends Entity implements Transformable, Colorable {
+import java.util.Random;
 
+public class Plant extends Entity implements Transformable, Colorable {
     private final Transform transform;
+    private final float maxSize;
 
     public Plant(PVector pos) {
-        this.transform = new Transform(pos, new PVector(0, 0));
+        float tmpMaxSize = Main.getInstance().randomGaussian() + 10f;
+        this.maxSize = Math.max(5f, Math.min(15f, tmpMaxSize));
+        this.transform = new Transform(pos, Main.getInstance().random(maxSize));
     }
 
     @Override
     public void tick() {
-        if (transform.getSize().mag() < 10)
-            transform.getSize().add(0.01f, 0.01f);
+        if (transform.getSize() < maxSize)
+            transform.setSize(transform.getSize() + 0.01f);
     }
 
     @Override
     public void draw(PApplet applet) {
         applet.fill(60, 255, 60);
-        applet.ellipse(transform.getPos().x, transform.getPos().y, transform.getSize().x, transform.getSize().y);
+        applet.ellipse(transform.getPos().x, transform.getPos().y, transform.getSize(), transform.getSize());
+    }
+
+    public float getNutritionValue() {
+        return transform.getSize() / 5f;
     }
 
     @Override

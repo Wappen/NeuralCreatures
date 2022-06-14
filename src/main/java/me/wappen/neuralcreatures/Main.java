@@ -23,7 +23,7 @@ public class Main extends PApplet {
     @Override
     public void settings() {
         size(1200, 800);
-        camera = new Camera(new Transform(new PVector(0, 0), new PVector(1, 1)));
+        camera = new Camera(new Transform(new PVector(0, 0), 1f));
     }
 
     @Override
@@ -39,12 +39,12 @@ public class Main extends PApplet {
 
         if (simulator.isRealtime()) {
             translate(width / 2f, height / 2f); // Translate to center
-            scale(camera.getTransform().getSize().x, camera.getTransform().getSize().y);
+            scale(camera.getTransform().getSize(), camera.getTransform().getSize());
             translate(-camera.getTransform().getPos().x, -camera.getTransform().getPos().y); // Apply camera transform
 
             camera.move(new PVector(
-                    cameraMove.x / camera.getTransform().getSize().x,
-                    cameraMove.y / camera.getTransform().getSize().y)
+                    cameraMove.x / camera.getTransform().getSize(),
+                    cameraMove.y / camera.getTransform().getSize())
                     .normalize().mult(moveSpeed));
 
             camera.tick();
@@ -54,12 +54,12 @@ public class Main extends PApplet {
             if (selected != null) {
                 Transform transform = ((Transformable) selected).getTransform();
                 PVector pos = transform.getPos();
-                PVector size = transform.getSize();
+                float size = transform.getSize();
 
                 fill(255, 128);
                 stroke(255);
                 strokeWeight(1);
-                ellipse(pos.x, pos.y, size.x, size.y);
+                ellipse(pos.x, pos.y, size, size);
             }
         }
         else {
@@ -113,9 +113,9 @@ public class Main extends PApplet {
     }
 
     public PVector mousePos() {
-        PVector s = camera.getTransform().getSize();
+        float s = camera.getTransform().getSize();
         PVector p = camera.getTransform().getPos();
-        return new PVector((mouseX - width / 2f) / s.x + p.x, (mouseY - height / 2f) / s.y + p.y);
+        return new PVector((mouseX - width / 2f) / s + p.x, (mouseY - height / 2f) / s + p.y);
     }
 
     public static void main(String[] args) {

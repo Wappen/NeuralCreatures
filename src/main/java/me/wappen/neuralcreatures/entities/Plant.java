@@ -11,10 +11,10 @@ public class Plant extends Entity implements Transformable, Colorable {
     private final Transform transform;
     private final float maxSize;
 
-    public Plant(PVector pos) {
+    public Plant(PVector pos, float growth) {
         float tmpMaxSize = Main.getInstance().randomGaussian() + 10f;
         this.maxSize = Math.max(5f, Math.min(15f, tmpMaxSize));
-        this.transform = new Transform(pos, Main.getInstance().random(maxSize));
+        this.transform = new Transform(pos, maxSize * growth);
     }
 
     @Override

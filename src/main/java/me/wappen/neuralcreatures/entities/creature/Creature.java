@@ -84,8 +84,8 @@ public class Creature extends Entity implements Transformable, Colorable, Creatu
         path.tick();
         brain.process(() -> senses.get(this), (double[] out) -> muscles.handle(out, this));
 
-        if (Main.getInstance().frameCount % 8 == 0) {
-            List<Entity> hits = getWorld().getEntitiesInRadius(transform.getPos(), transform.getSize());
+        if (Main.getInstance().frameCount % 4 == getId() % 4) {
+            List<Entity> hits = getWorld().getEntitiesInRadius(transform.getPos(), transform.getSize() / 2);
 
             for (Entity hit : hits) {
                 if (hit instanceof Plant plant) {

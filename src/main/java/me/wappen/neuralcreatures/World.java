@@ -29,7 +29,7 @@ public class World implements Tickable, Drawable {
         massSpawn(pos -> spawn(new Creature(pos)), 500,
                 new PVector(-worldSize, -worldSize), new PVector(worldSize, worldSize));
 
-        massSpawn(pos -> spawn(new Plant(pos)), 1000,
+        massSpawn(pos -> spawn(new Plant(pos, rng.nextFloat())), 1000,
                 new PVector(-worldSize, -worldSize), new PVector(worldSize, worldSize));
     }
 
@@ -51,7 +51,7 @@ public class World implements Tickable, Drawable {
         for (Entity e : entitySpace.getClosest(coord)) {
             if (e instanceof Transformable entity) {
                 PVector normalizedCoord = coord.copy().sub(entity.getTransform().getPos());
-                if (normalizedCoord.mag() < (radius + entity.getTransform().getSize()) / 2)
+                if (normalizedCoord.mag() < radius + entity.getTransform().getSize() / 2)
                     hits.add(e);
             }
         }
@@ -98,9 +98,8 @@ public class World implements Tickable, Drawable {
         while (!deferredTasks.isEmpty())
             deferredTasks.remove().run();
 
-        for (Entity entity : entities.values()) {
+        for (Entity entity : entities.values())
             entity.tick();
-        }
 
         if (Main.getInstance().frameCount % 8 == 0)
             entitySpace.update();

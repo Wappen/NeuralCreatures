@@ -16,7 +16,7 @@ import processing.core.PVector;
 
 import java.util.List;
 
-public class Creature extends Entity implements Transformable, Colorable, CreatureState {
+public class Creature extends Entity implements Transformable, Colorable, CreatureBlueprint {
     private final Transform transform = new Transform(new PVector(0, 0), 1, new PVector(0, 1));
 
     private final float speed;
@@ -57,7 +57,7 @@ public class Creature extends Entity implements Transformable, Colorable, Creatu
         color = PVector.random3D().add(1, 1, 1).mult(0.5f).mult(255);
     }
 
-    public Creature(CreatureState state) {
+    public Creature(CreatureBlueprint state) {
         this.transform.setSize(10);
         this.transform.setDir(PVector.random2D());
 

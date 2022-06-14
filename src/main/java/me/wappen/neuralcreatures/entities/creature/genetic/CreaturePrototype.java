@@ -1,12 +1,12 @@
 package me.wappen.neuralcreatures.entities.creature.genetic;
 
-import me.wappen.neuralcreatures.entities.creature.CreatureState;
+import me.wappen.neuralcreatures.entities.creature.CreatureBlueprint;
 import me.wappen.neuralcreatures.entities.creature.muscles.MuscleSystem;
 import me.wappen.neuralcreatures.entities.creature.senses.SensorySystem;
 import me.wappen.neuralcreatures.neural.Network;
 import processing.core.PVector;
 
-public class CreaturePrototype implements CreatureState {
+public class CreaturePrototype implements CreatureBlueprint {
 
     private float speed = 0;
     private PVector color = new PVector(0, 0, 0);

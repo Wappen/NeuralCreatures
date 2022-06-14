@@ -7,8 +7,6 @@ import me.wappen.neuralcreatures.Transformable;
 import processing.core.PApplet;
 import processing.core.PVector;
 
-import java.util.Random;
-
 public class Plant extends Entity implements Transformable, Colorable {
     private final Transform transform;
     private final float maxSize;

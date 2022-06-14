@@ -3,6 +3,8 @@ package me.wappen.neuralcreatures;
 import me.wappen.neuralcreatures.entities.Entity;
 import me.wappen.neuralcreatures.entities.creature.Creature;
 import me.wappen.neuralcreatures.entities.Plant;
+import me.wappen.neuralcreatures.space.ChunkSpace;
+import me.wappen.neuralcreatures.space.Space;
 import processing.core.PApplet;
 import processing.core.PVector;
 
@@ -10,15 +12,16 @@ import java.util.*;
 import java.util.function.Consumer;
 
 public class World implements Tickable, Drawable {
-
-    Random rng;
+    private final Random rng;
     private final Map<Long, Entity> entities;
+    private final Space<Entity> entitySpace;
 
-    Queue<Runnable> deferredTasks;
+    private final Queue<Runnable> deferredTasks;
 
     public World() {
         rng = new Random();
         entities = new HashMap<>();
+        entitySpace = new ChunkSpace<>(200);
         deferredTasks = new LinkedList<>();
 
         float worldSize = 1000;
@@ -31,7 +34,7 @@ public class World implements Tickable, Drawable {
     }
 
     public Entity getEntityAtCoord(PVector coord) {
-        for (Entity e : entities.values()) {
+        for (Entity e : entitySpace.getClosest(coord)) {
             if (e instanceof Transformable entity) {
                 PVector normalizedCoord = coord.copy().sub(entity.getTransform().getPos());
                 if (normalizedCoord.mag() < entity.getTransform().getSize() / 2)
@@ -45,10 +48,10 @@ public class World implements Tickable, Drawable {
     public List<Entity> getEntitiesInRadius(PVector coord, float radius) {
         List<Entity> hits = new ArrayList<>();
 
-        for (Entity e : entities.values()) {
+        for (Entity e : entitySpace.getClosest(coord)) {
             if (e instanceof Transformable entity) {
                 PVector normalizedCoord = coord.copy().sub(entity.getTransform().getPos());
-                if (normalizedCoord.mag() < radius + entity.getTransform().getSize() / 2)
+                if (normalizedCoord.mag() < (radius + entity.getTransform().getSize()) / 2)
                     hits.add(e);
             }
         }
@@ -73,6 +76,9 @@ public class World implements Tickable, Drawable {
         if (entities.containsKey(entity.getId()))
             return false;
 
+        if (entity instanceof Transformable tEntity)
+            entitySpace.addObj(entity, tEntity.getTransform()::getPos);
+
         entity.setWorld(this);
         entities.put(entity.getId(), entity);
         return true;
@@ -95,6 +101,9 @@ public class World implements Tickable, Drawable {
         for (Entity entity : entities.values()) {
             entity.tick();
         }
+
+        if (Main.getInstance().frameCount % 8 == 0)
+            entitySpace.update();
     }
 
     @Override

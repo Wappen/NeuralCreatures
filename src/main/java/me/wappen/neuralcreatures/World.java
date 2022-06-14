@@ -34,15 +34,26 @@ public class World implements Tickable, Drawable {
         for (Entity e : entities.values()) {
             if (e instanceof Transformable entity) {
                 PVector normalizedCoord = coord.copy().sub(entity.getTransform().getPos());
-                normalizedCoord.x /= entity.getTransform().getSize().x / 2;
-                normalizedCoord.y /= entity.getTransform().getSize().y / 2;
-
-                if (normalizedCoord.mag() < 1)
+                if (normalizedCoord.mag() < entity.getTransform().getSize() / 2)
                     return e;
             }
         }
 
         return null;
+    }
+
+    public List<Entity> getEntitiesInRadius(PVector coord, float radius) {
+        List<Entity> hits = new ArrayList<>();
+
+        for (Entity e : entities.values()) {
+            if (e instanceof Transformable entity) {
+                PVector normalizedCoord = coord.copy().sub(entity.getTransform().getPos());
+                if (normalizedCoord.mag() < radius + entity.getTransform().getSize() / 2)
+                    hits.add(e);
+            }
+        }
+
+        return hits;
     }
 
     public void deferTask(Runnable task) {

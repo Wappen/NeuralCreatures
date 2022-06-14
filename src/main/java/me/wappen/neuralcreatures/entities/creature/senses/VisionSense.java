@@ -5,13 +5,13 @@ import me.wappen.neuralcreatures.entities.Entity;
 import me.wappen.neuralcreatures.entities.creature.Creature;
 import processing.core.PVector;
 
-public record VisionSense(Creature creature) implements Sense {
+public class VisionSense implements Sense {
     private static final float eyeDist = 20; // dist of the so called 'eyes' from the 'real' 'eye'
     private static final int res = 5; // num of 'eyes'
     private static final float fov = 1f; // radians
 
     @Override
-    public double[] get() {
+    public double[] get(Creature creature) {
         double[] arr = new double[res * 3]; // 3 because rgb color
 
         PVector eyePos = creature.getEyePos();
@@ -42,5 +42,14 @@ public record VisionSense(Creature creature) implements Sense {
     @Override
     public int getResolution() {
         return res * 3;
+    }
+
+    @Override
+    public Sense copy() {
+        try {
+            return (Sense) this.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

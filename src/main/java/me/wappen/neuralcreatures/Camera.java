@@ -11,15 +11,15 @@ public class Camera implements Transformable, Tickable {
 
     public Camera(Transform transform) {
         this.transform = transform;
-        this.target = new Transform(transform.getPos().copy(), transform.getSize().copy());
+        this.target = new Transform(transform.getPos().copy(), transform.getSize());
         this.stiffness = .3f;
     }
 
     public void zoom(float val) {
         if (val > 0)
-            target.getSize().mult(1 + val);
+            target.setSize(target.getSize() * (1 + val));
         else
-            target.getSize().div(1 - val);
+            target.setSize(target.getSize() / (1 - val));
     }
 
     public void move(PVector move) {

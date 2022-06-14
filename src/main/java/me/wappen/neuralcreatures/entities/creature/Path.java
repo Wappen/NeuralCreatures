@@ -47,7 +47,7 @@ public class Path implements Tickable, Drawable {
             applet.vertex(pos.x, pos.y);
 
             int i = 0;
-            int quality = (int)Math.ceil(1 / Main.getCamera().getTransform().getSize().mag() * 12);
+            int quality = (int)Math.ceil(1 / Main.getCamera().getTransform().getSize() * 12);
 
             for (Iterator<PVector> it = path.descendingIterator(); it.hasNext(); ) {
                 PVector p = it.next();

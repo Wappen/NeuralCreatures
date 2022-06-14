@@ -1,18 +1,19 @@
 package me.wappen.neuralcreatures.neural;
 
+import java.io.*;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public class Network {
+public class Network implements Serializable {
+    public record Neuron(double bias, List<Axon> inputAxons, Function<Double, Double> activation) implements Serializable { }
 
-    public record Neuron(double bias, List<Axon> inputAxons, Function<Double, Double> activation) { }
-    public record Axon(Neuron previous, double weight) { }
+    public record Axon(Neuron previous, double weight) implements Serializable { }
 
     final List<Neuron> inputs;
-    final List<Neuron> outputs;
 
+    final List<Neuron> outputs;
     public Network() {
         inputs = new LinkedList<>();
         outputs = new LinkedList<>();
@@ -62,5 +63,21 @@ public class Network {
         }
 
         return neuron.activation().apply(sum);
+    }
+
+    public Network copy() {
+        try {
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ObjectOutputStream out = new ObjectOutputStream(bos);
+            out.writeObject(this);
+            out.flush();
+            out.close();
+
+            ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(bos.toByteArray()));
+            return (Network) in.readObject();
+
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

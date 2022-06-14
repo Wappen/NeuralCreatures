@@ -1,6 +1,7 @@
 package me.wappen.neuralcreatures.entities.creature;
 
 import me.wappen.neuralcreatures.*;
+import me.wappen.neuralcreatures.debug.Debugger;
 import me.wappen.neuralcreatures.entities.Entity;
 import me.wappen.neuralcreatures.entities.Plant;
 import me.wappen.neuralcreatures.entities.creature.muscles.MoveMuscle;
@@ -129,6 +130,7 @@ public class Creature extends Entity implements Transformable, Colorable, Creatu
     }
 
     public void move(PVector dir) {
+        dir.limit(1f);
         if (dir.mag() > 0) {
             float exhaustionFactor = 0.0005f;
             energy -= dir.mag() * exhaustionFactor;
@@ -145,8 +147,11 @@ public class Creature extends Entity implements Transformable, Colorable, Creatu
         return pos.copy().add(dir.copy().mult(size / 3));
     }
 
-    private static float smoothSquareWave(float t) {
-        return (float) (Math.sin(t) + Math.sin(t * 3) / 3);
+    @Override
+    public void accept(Debugger debugger) {
+        super.accept(debugger);
+        debugger.setInfo("Health", health);
+        debugger.setInfo("Energy", energy);
     }
 
     public float getEnergy() {
@@ -185,5 +190,9 @@ public class Creature extends Entity implements Transformable, Colorable, Creatu
     @Override
     public Network getBrain() {
         return brain;
+    }
+
+    private static float smoothSquareWave(float t) {
+        return (float) (Math.sin(t) + Math.sin(t * 3) / 3);
     }
 }

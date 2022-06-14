@@ -4,6 +4,7 @@ import me.wappen.neuralcreatures.Colorable;
 import me.wappen.neuralcreatures.Main;
 import me.wappen.neuralcreatures.Transform;
 import me.wappen.neuralcreatures.Transformable;
+import me.wappen.neuralcreatures.debug.Debugger;
 import processing.core.PApplet;
 import processing.core.PVector;
 
@@ -27,6 +28,14 @@ public class Plant extends Entity implements Transformable, Colorable {
     public void draw(PApplet applet) {
         applet.fill(60, 255, 60);
         applet.ellipse(transform.getPos().x, transform.getPos().y, transform.getSize(), transform.getSize());
+    }
+
+    @Override
+    public void accept(Debugger debugger) {
+        super.accept(debugger);
+        debugger.setInfo("Growth", transform.getSize() / maxSize);
+        debugger.setInfo("Nutrition", getNutritionValue());
+        debugger.setInfo("MaxSize", maxSize);
     }
 
     public float getNutritionValue() {

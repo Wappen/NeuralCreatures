@@ -94,9 +94,9 @@ public class ChunkSpace<T> implements Space<T> {
         // Remove all empty chunks
         List<Chunk.Pos> toRemove = new ArrayList<>();
 
-        for (Map.Entry<Chunk.Pos, Chunk<T>> posChunkEntry : chunks.entrySet()) {
-            Chunk.Pos pos = posChunkEntry.getKey();
-            Chunk<T> chunk = posChunkEntry.getValue();
+        for (Map.Entry<Chunk.Pos, Chunk<T>> entry : chunks.entrySet()) {
+            Chunk.Pos pos = entry.getKey();
+            Chunk<T> chunk = entry.getValue();
             if (chunk.objects.isEmpty())
                 toRemove.add(pos);
         }
@@ -109,7 +109,7 @@ public class ChunkSpace<T> implements Space<T> {
     }
 
     private static class Chunk<T> {
-        Map<T, Supplier<PVector>> objects = new WeakHashMap<>();
+        Map<T, Supplier<PVector>> objects = new HashMap<>();
 
         Collection<T> getObjects() {
             return objects.keySet();

@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Genome {
-    List<Gene> genes;
+    final List<Gene> genes;
 
     public Genome() {
         this.genes = new LinkedList<>();
@@ -17,9 +17,10 @@ public class Genome {
     public CreaturePrototype createPrototype() {
         CreaturePrototype prototype = new CreaturePrototype();
 
-        for (Gene gene : genes) {
+        prototype.setGenome(this);
+
+        for (Gene gene : genes)
             gene.applyTo(prototype);
-        }
 
         return prototype;
     }

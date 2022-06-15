@@ -23,10 +23,6 @@ public class MoveMuscle implements Muscle {
 
     @Override
     public MoveMuscle copy() {
-        try {
-            return (MoveMuscle) this.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new RuntimeException(e);
-        }
+        return new MoveMuscle();
     }
 }

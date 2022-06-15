@@ -1,7 +1,7 @@
 package me.wappen.neuralcreatures.neural.builder;
 
-import me.wappen.neuralcreatures.neural.Network;
+import me.wappen.neuralcreatures.neural.NeuralNetwork;
 
 public interface NetworkBuilder {
-    Network build();
+    NeuralNetwork build();
 }

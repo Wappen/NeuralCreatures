@@ -1,4 +1,4 @@
-package me.wappen.neuralcreatures.space;
+package me.wappen.neuralcreatures.misc;
 
 import processing.core.PVector;
 
@@ -8,10 +8,12 @@ import java.util.function.Supplier;
 public class ChunkSpace<T> implements Space<T> {
     private final float chunkSize;
     private final Map<Chunk.Pos, Chunk<T>> chunks;
+    private final Map<T, Chunk<T>> objects;
 
     public ChunkSpace(float chunkSize) {
         this.chunkSize = chunkSize;
         this.chunks = new HashMap<>();
+        this.objects = new HashMap<>();
     }
 
     @Override
@@ -19,6 +21,13 @@ public class ChunkSpace<T> implements Space<T> {
         PVector p = pos.get();
         Chunk<T> chunk = createChunkAt((int) (p.x / chunkSize), (int) (p.y / chunkSize));
         chunk.objects.put(obj, pos);
+        objects.put(obj, chunk);
+    }
+
+    @Override
+    public void removeObj(T obj) {
+        Chunk<T> chunk = objects.remove(obj);
+        chunk.objects.remove(obj);
     }
 
     @Override
@@ -73,17 +82,21 @@ public class ChunkSpace<T> implements Space<T> {
                 // Check if they moved out of any existent chunks
                 if (newChunk == null) {
                     if (newChunks.containsKey(chunkPos)) { // Entity will be inside chunk that is already being created
-                        newChunks.get(chunkPos).objects.put(obj, supplierEntry.getValue());
+                        newChunk = newChunks.get(chunkPos);
+                        newChunk.objects.put(obj, supplierEntry.getValue());
+                        objects.put(obj, newChunk);
                     }
                     else { // Create new chunk
                         newChunk = new Chunk<>();
                         newChunk.objects.put(obj, supplierEntry.getValue());
+                        objects.put(obj, newChunk);
                         newChunks.put(chunkPos, newChunk);
                     }
                 }
                 else if (newChunk != chunk) { // Entity moved to different but existent chunk
                     toRemove.add(obj);
                     newChunk.objects.put(obj, supplierEntry.getValue());
+                    objects.put(obj, newChunk);
                 }
             }
 

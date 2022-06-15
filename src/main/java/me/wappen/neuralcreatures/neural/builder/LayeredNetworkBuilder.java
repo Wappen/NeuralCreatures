@@ -1,49 +1,82 @@
 package me.wappen.neuralcreatures.neural.builder;
 
-import me.wappen.neuralcreatures.neural.NNUtils;
-import me.wappen.neuralcreatures.neural.Network;
+import me.wappen.neuralcreatures.misc.Graph;
+import me.wappen.neuralcreatures.neural.Axon;
+import me.wappen.neuralcreatures.neural.NeuralNetwork;
+import me.wappen.neuralcreatures.neural.Neuron;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
 public class LayeredNetworkBuilder implements NetworkBuilder {
-
-    private record Layer(List<Network.Neuron> neurons) {}
-
-    private final List<Layer> layers;
-    private final Function<Double, Double> defActivation;
+    private final Graph<Neuron, Axon> graph;
+    private final List<Neuron> inputNeurons;
+    private final List<Neuron> outputNeurons;
+    private final List<List<Neuron>> hiddenNeurons;
 
     public LayeredNetworkBuilder() {
-        layers = new ArrayList<>();
-        defActivation = Math::tanh;
+        graph = new Graph<>();
+        inputNeurons = new ArrayList<>();
+        outputNeurons = new ArrayList<>();
+        hiddenNeurons = new ArrayList<>();
     }
 
-    public LayeredNetworkBuilder(Function<Double, Double> defActivation) {
-        layers = new ArrayList<>();
-        this.defActivation = defActivation;
-    }
-
-    public void addLayer(int size, Function<Double, Double> activation) {
-        Layer prevLayer = (layers.isEmpty()) ? new Layer(new ArrayList<>()) : layers.get(layers.size() - 1);
-        Layer layer = new Layer(new ArrayList<>());
-
+    public LayeredNetworkBuilder addInputLayer(int size, Function<Double, Double> activation) {
         for (int i = 0; i < size; i++) {
-            layer.neurons.add(NNUtils.randomlyConnected(prevLayer.neurons, activation));
+            Neuron neuron = new Neuron(Math.random(), activation);
+            graph.addObj(neuron);
+            inputNeurons.add(neuron);
         }
 
-        layers.add(layer);
+        hiddenNeurons.add(inputNeurons);
+        return this;
     }
 
-    public void addLayer(int size) {
-        addLayer(size, defActivation);
+    public LayeredNetworkBuilder addOutputLayer(int size, Function<Double, Double> activation) {
+        for (int i = 0; i < size; i++) {
+            Neuron neuron = new Neuron(Math.random(), activation);
+            graph.addObj(neuron);
+            outputNeurons.add(neuron);
+        }
+
+        hiddenNeurons.add(outputNeurons);
+        return this;
+    }
+
+    public LayeredNetworkBuilder addHiddenLayer(int size, Function<Double, Double> activation) {
+        List<Neuron> layer = new ArrayList<>();
+
+        for (int i = 0; i < size; i++) {
+            Neuron neuron = new Neuron(Math.random(), activation);
+            graph.addObj(neuron);
+            layer.add(neuron);
+        }
+
+        hiddenNeurons.add(layer);
+        return this;
     }
 
     @Override
-    public Network build() {
-        Layer inputs = layers.get(0);
-        Layer outputs = layers.get(layers.size() - 1);
+    public NeuralNetwork build() {
+        Graph<Neuron, Axon> connectedGraph = new Graph<>(graph);
 
-        return new Network(inputs.neurons, outputs.neurons);
+        List<Neuron> prevLayer = null;
+        for (List<Neuron> layer : hiddenNeurons) {
+            if (prevLayer == null) {
+                prevLayer = layer;
+                continue; // Skip first iteration
+            }
+
+            for (Neuron neuron : layer) {
+                for (Neuron prevNeuron : prevLayer) {
+                    connectedGraph.addEdge(prevNeuron, neuron, new Axon(Math.random()));
+                }
+            }
+
+            prevLayer = layer;
+        }
+
+        return new NeuralNetwork(connectedGraph, inputNeurons, outputNeurons);
     }
 }

@@ -4,7 +4,7 @@ import me.wappen.neuralcreatures.entities.creature.genetic.CreaturePrototype;
 import me.wappen.neuralcreatures.entities.creature.genetic.Gene;
 
 public class SpeedGene implements Gene {
-    float speed;
+    float speed = 1;
 
     @Override
     public void applyTo(CreaturePrototype prototype) {
@@ -15,5 +15,10 @@ public class SpeedGene implements Gene {
     public int deserialize(long[] arr, int index) {
         speed = (float)Double.longBitsToDouble(arr[index]);
         return 1;
+    }
+
+    @Override
+    public long[] serialize() {
+        return new long[0];
     }
 }

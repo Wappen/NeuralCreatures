@@ -1,5 +1,6 @@
 package me.wappen.neuralcreatures.entities.creature.genetic;
 
+import java.util.Arrays;
 import java.util.Map;
 import java.util.function.Supplier;
 
@@ -22,5 +23,10 @@ public class ConcreteGenomeDeserializer implements GenomeDeserializer {
         }
 
         return genome;
+    }
+
+    @Override
+    public long[] serialize(Genome genome) {
+        return new long[0];
     }
 }

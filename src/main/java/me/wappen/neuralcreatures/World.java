@@ -3,8 +3,10 @@ package me.wappen.neuralcreatures;
 import me.wappen.neuralcreatures.entities.Entity;
 import me.wappen.neuralcreatures.entities.creature.Creature;
 import me.wappen.neuralcreatures.entities.Plant;
-import me.wappen.neuralcreatures.space.ChunkSpace;
-import me.wappen.neuralcreatures.space.Space;
+import me.wappen.neuralcreatures.entities.creature.genetic.Genome;
+import me.wappen.neuralcreatures.entities.creature.genetic.genes.*;
+import me.wappen.neuralcreatures.misc.ChunkSpace;
+import me.wappen.neuralcreatures.misc.Space;
 import processing.core.PApplet;
 import processing.core.PVector;
 
@@ -26,8 +28,18 @@ public class World implements Tickable, Drawable {
 
         float worldSize = 1000;
 
-        massSpawn(pos -> spawn(new Creature(pos)), 500,
-                new PVector(-worldSize, -worldSize), new PVector(worldSize, worldSize));
+        massSpawn(pos -> {
+            Genome genome = new Genome();
+            genome.addGene(new EyeGene());
+            genome.addGene(new LegGene());
+            genome.addGene(new SpeedGene());
+            genome.addGene(new BrainGene());
+            genome.addGene(new ColorGene());
+
+            Creature creature = new Creature(genome.createPrototype());
+            creature.getTransform().setPos(pos);
+            spawn(creature);
+        }, 500, new PVector(-worldSize, -worldSize), new PVector(worldSize, worldSize));
 
         massSpawn(pos -> spawn(new Plant(pos, rng.nextFloat())), 1000,
                 new PVector(-worldSize, -worldSize), new PVector(worldSize, worldSize));
@@ -87,6 +99,9 @@ public class World implements Tickable, Drawable {
     public boolean despawn(Entity entity) {
         if (!entities.containsKey(entity.getId()))
             return false;
+
+        if (entity instanceof Transformable)
+            entitySpace.removeObj(entity);
 
         entity.setWorld(null);
         entities.remove(entity.getId());

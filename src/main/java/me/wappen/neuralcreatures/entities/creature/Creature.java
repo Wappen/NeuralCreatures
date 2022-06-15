@@ -4,14 +4,16 @@ import me.wappen.neuralcreatures.*;
 import me.wappen.neuralcreatures.debug.Debugger;
 import me.wappen.neuralcreatures.entities.Entity;
 import me.wappen.neuralcreatures.entities.Plant;
+import me.wappen.neuralcreatures.entities.creature.genetic.CreatureBirther;
+import me.wappen.neuralcreatures.entities.creature.genetic.Genome;
 import me.wappen.neuralcreatures.entities.creature.muscles.MoveMuscle;
 import me.wappen.neuralcreatures.entities.creature.muscles.MuscleSystem;
 import me.wappen.neuralcreatures.entities.creature.senses.HealthSense;
 import me.wappen.neuralcreatures.entities.creature.senses.SensorySystem;
 import me.wappen.neuralcreatures.entities.creature.senses.VisionSense;
 import me.wappen.neuralcreatures.neural.NNUtils;
+import me.wappen.neuralcreatures.neural.NeuralNetwork;
 import me.wappen.neuralcreatures.neural.builder.LayeredNetworkBuilder;
-import me.wappen.neuralcreatures.neural.Network;
 import processing.core.PApplet;
 import processing.core.PVector;
 
@@ -23,9 +25,10 @@ public class Creature extends Entity implements Transformable, Colorable, Creatu
     private final float speed;
     private final PVector color;
 
+    private Genome genome;
     private final SensorySystem senses;
     private final MuscleSystem muscles;
-    private final Network brain;
+    private final NeuralNetwork brain;
 
     private final Path path = new Path(this);
 
@@ -47,28 +50,25 @@ public class Creature extends Entity implements Transformable, Colorable, Creatu
         muscles = new MuscleSystem();
         muscles.addMuscle(new MoveMuscle());
 
-        LayeredNetworkBuilder nb = new LayeredNetworkBuilder(NNUtils::reLU);
-
-        nb.addLayer(senses.getResolution(), NNUtils::map01); // input layer
-        //nb.addLayer(8);
-        nb.addLayer(4);
-        //nb.addLayer(8);
-        nb.addLayer(muscles.getResolution(), NNUtils::map11); // output layer
-        this.brain = nb.build();
+        this.brain = new LayeredNetworkBuilder()
+                .addInputLayer(senses.getResolution(), NNUtils::map01)
+                .addHiddenLayer(4, NNUtils::reLU)
+                .addOutputLayer(muscles.getResolution(), NNUtils::map11)
+                .build();
 
         //color = new PVector(255, 100, 100);
         color = PVector.random3D().add(1, 1, 1).mult(0.5f).mult(255);
     }
 
-    public Creature(CreatureBlueprint state) {
+    public Creature(CreatureBlueprint blueprint) {
         this.transform.setSize(10);
         this.transform.setDir(PVector.random2D());
 
-        this.speed = state.getSpeed();
-        this.color = state.getColor();
-        this.senses = (SensorySystem) state.getSenses().copy();
-        this.muscles = (MuscleSystem) state.getMuscles().copy();
-        this.brain = state.getBrain().copy();
+        this.speed = blueprint.getSpeed();
+        this.color = blueprint.getColor().copy();
+        this.senses = (SensorySystem) blueprint.getSenses().copy();
+        this.muscles = (MuscleSystem) blueprint.getMuscles().copy();
+        this.brain = new NeuralNetwork(blueprint.getBrain());
     }
 
     @Override
@@ -85,7 +85,7 @@ public class Creature extends Entity implements Transformable, Colorable, Creatu
         energy -= starvationRate;
 
         path.tick();
-        brain.process(() -> senses.get(this), (double[] out) -> muscles.handle(out, this));
+        muscles.handle(brain.process(senses.get(this)), this);
 
         if (Main.getInstance().frameCount % 4 == getId() % 4) {
             List<Entity> hits = getWorld().getEntitiesInRadius(transform.getPos(), transform.getSize() / 2);
@@ -98,8 +98,19 @@ public class Creature extends Entity implements Transformable, Colorable, Creatu
             }
         }
 
+        if (energy > 4)
+            giveBirth();
+
         if (health <= 0)
             getWorld().deferTask(() -> getWorld().despawn(this));
+    }
+
+    private void giveBirth() {
+        getWorld().deferTask(() -> {
+            Creature child = new CreatureBirther(genome, genome).build();
+            child.getTransform().setPos(getTransform().getPos());
+            getWorld().spawn(child);
+        });
     }
 
     @Override
@@ -168,6 +179,11 @@ public class Creature extends Entity implements Transformable, Colorable, Creatu
     }
 
     @Override
+    public Genome getGenome() {
+        return genome;
+    }
+
+    @Override
     public float getSpeed() {
         return speed;
     }
@@ -188,7 +204,7 @@ public class Creature extends Entity implements Transformable, Colorable, Creatu
     }
 
     @Override
-    public Network getBrain() {
+    public NeuralNetwork getBrain() {
         return brain;
     }
 

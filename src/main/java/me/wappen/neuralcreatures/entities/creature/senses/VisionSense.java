@@ -1,7 +1,6 @@
 package me.wappen.neuralcreatures.entities.creature.senses;
 
 import me.wappen.neuralcreatures.Colorable;
-import me.wappen.neuralcreatures.Main;
 import me.wappen.neuralcreatures.entities.Entity;
 import me.wappen.neuralcreatures.entities.creature.Creature;
 import processing.core.PVector;
@@ -53,10 +52,6 @@ public class VisionSense implements Sense {
 
     @Override
     public Sense copy() {
-        try {
-            return (Sense) this.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new RuntimeException(e);
-        }
+        return new VisionSense(eyeDist, res, fov);
     }
 }

@@ -1,5 +1,7 @@
 package me.wappen.neuralcreatures.entities.creature.genetic;
 
+import me.wappen.neuralcreatures.entities.creature.genetic.genes.*;
+
 import java.util.*;
 import java.util.function.Supplier;
 
@@ -10,6 +12,12 @@ public class CreatureGenomeSerializer implements GenomeSerializer {
     public CreatureGenomeSerializer() {
         geneDeserializer = new HashMap<>();
         geneIds = new HashMap<>();
+
+        registerGene(BrainGene.class, BrainGene::new);
+        registerGene(ColorGene.class, ColorGene::new);
+        registerGene(EyeGene.class, EyeGene::new);
+        registerGene(LegGene.class, LegGene::new);
+        registerGene(SpeedGene.class, SpeedGene::new);
     }
 
     public <T extends Gene> void registerGene(Class<T> geneClass, Supplier<T> supplier) {

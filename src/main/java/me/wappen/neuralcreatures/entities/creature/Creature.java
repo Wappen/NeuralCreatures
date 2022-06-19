@@ -7,7 +7,6 @@ import me.wappen.neuralcreatures.entities.Plant;
 import me.wappen.neuralcreatures.entities.creature.genetic.CreatureGenomeSerializer;
 import me.wappen.neuralcreatures.entities.creature.genetic.CreatureBirther;
 import me.wappen.neuralcreatures.entities.creature.genetic.Genome;
-import me.wappen.neuralcreatures.entities.creature.genetic.genes.*;
 import me.wappen.neuralcreatures.entities.creature.muscles.MuscleSystem;
 import me.wappen.neuralcreatures.entities.creature.senses.SensorySystem;
 import me.wappen.neuralcreatures.neural.NeuralNetwork;
@@ -82,11 +81,6 @@ public class Creature extends Entity implements Transformable, Colorable, Creatu
         energy -= 3;
         getWorld().deferTask(() -> {
             CreatureGenomeSerializer serializer = new CreatureGenomeSerializer();
-            serializer.registerGene(BrainGene.class, BrainGene::new);
-            serializer.registerGene(ColorGene.class, ColorGene::new);
-            serializer.registerGene(EyeGene.class, EyeGene::new);
-            serializer.registerGene(LegGene.class, LegGene::new);
-            serializer.registerGene(SpeedGene.class, SpeedGene::new);
             Creature child = new CreatureBirther(serializer, genome, genome).build();
             child.getTransform().setPos(getTransform().getPos());
             getWorld().spawn(child);

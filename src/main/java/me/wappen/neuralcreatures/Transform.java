@@ -12,17 +12,17 @@ public class Transform {
     }
 
     public Transform(PVector pos) {
-        this(pos.copy(), 1f);
+        this(pos, 1f);
     }
 
     public Transform(PVector pos, float size) {
-        this(pos.copy(), size, new PVector(0, 1));
+        this(pos, size, new PVector(0, 1));
     }
 
     public Transform(PVector pos, float size, PVector dir) {
-        this.pos = pos;
+        this.pos = pos.copy();
         this.size = size;
-        this.dir = dir;
+        this.dir = dir.copy();
     }
 
     public void translate(PVector translation) {

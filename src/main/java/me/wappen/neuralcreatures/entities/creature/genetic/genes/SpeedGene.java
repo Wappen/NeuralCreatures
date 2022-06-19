@@ -19,6 +19,6 @@ public class SpeedGene implements Gene {
 
     @Override
     public long[] serialize() {
-        return new long[0];
+        return new long[] { Double.doubleToLongBits(speed) };
     }
 }

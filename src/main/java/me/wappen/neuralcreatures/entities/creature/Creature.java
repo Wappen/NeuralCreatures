@@ -4,8 +4,11 @@ import me.wappen.neuralcreatures.*;
 import me.wappen.neuralcreatures.debug.Debugger;
 import me.wappen.neuralcreatures.entities.Entity;
 import me.wappen.neuralcreatures.entities.Plant;
+import me.wappen.neuralcreatures.entities.creature.genetic.ConcreteGenomeSerializer;
 import me.wappen.neuralcreatures.entities.creature.genetic.CreatureBirther;
 import me.wappen.neuralcreatures.entities.creature.genetic.Genome;
+import me.wappen.neuralcreatures.entities.creature.genetic.GenomeSerializer;
+import me.wappen.neuralcreatures.entities.creature.genetic.genes.*;
 import me.wappen.neuralcreatures.entities.creature.muscles.MoveMuscle;
 import me.wappen.neuralcreatures.entities.creature.muscles.MuscleSystem;
 import me.wappen.neuralcreatures.entities.creature.senses.HealthSense;
@@ -107,8 +110,15 @@ public class Creature extends Entity implements Transformable, Colorable, Creatu
     }
 
     private void giveBirth() {
+        energy -= 3;
         getWorld().deferTask(() -> {
-            Creature child = new CreatureBirther(genome, genome).build();
+            ConcreteGenomeSerializer serializer = new ConcreteGenomeSerializer();
+            serializer.registerGene(BrainGene.class, BrainGene::new);
+            serializer.registerGene(ColorGene.class, ColorGene::new);
+            serializer.registerGene(EyeGene.class, EyeGene::new);
+            serializer.registerGene(LegGene.class, LegGene::new);
+            serializer.registerGene(SpeedGene.class, SpeedGene::new);
+            Creature child = new CreatureBirther(serializer, genome, genome).build();
             child.getTransform().setPos(getTransform().getPos());
             getWorld().spawn(child);
         });

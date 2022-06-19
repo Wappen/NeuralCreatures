@@ -1,6 +1,9 @@
 package me.wappen.neuralcreatures.misc;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Graph<T, U> {
     private final Map<T, Integer> indices;

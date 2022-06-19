@@ -1,7 +1,6 @@
 package me.wappen.neuralcreatures.entities.creature.senses;
 
 import me.wappen.neuralcreatures.entities.creature.Creature;
-import me.wappen.neuralcreatures.entities.creature.muscles.Muscle;
 
 import java.util.ArrayList;
 import java.util.Arrays;

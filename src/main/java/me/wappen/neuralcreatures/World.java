@@ -1,8 +1,8 @@
 package me.wappen.neuralcreatures;
 
 import me.wappen.neuralcreatures.entities.Entity;
-import me.wappen.neuralcreatures.entities.creature.*;
 import me.wappen.neuralcreatures.entities.Plant;
+import me.wappen.neuralcreatures.entities.creature.Creature;
 import me.wappen.neuralcreatures.entities.creature.genetic.CreatureGenome;
 import me.wappen.neuralcreatures.misc.ChunkSpace;
 import me.wappen.neuralcreatures.misc.Space;

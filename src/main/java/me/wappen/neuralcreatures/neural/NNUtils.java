@@ -1,10 +1,6 @@
 package me.wappen.neuralcreatures.neural;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
-import java.util.function.Function;
-import java.util.function.Supplier;
 
 public final class NNUtils {
     private static final Random rng = new Random();

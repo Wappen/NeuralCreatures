@@ -1,6 +1,9 @@
 package me.wappen.neuralcreatures.entities.creature;
 
-import me.wappen.neuralcreatures.*;
+import me.wappen.neuralcreatures.Colorable;
+import me.wappen.neuralcreatures.Main;
+import me.wappen.neuralcreatures.Transform;
+import me.wappen.neuralcreatures.Transformable;
 import me.wappen.neuralcreatures.debug.Debugger;
 import me.wappen.neuralcreatures.entities.Entity;
 import me.wappen.neuralcreatures.entities.Plant;

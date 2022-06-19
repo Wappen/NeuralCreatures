@@ -1,6 +1,9 @@
 package me.wappen.neuralcreatures.entities.creature;
 
-import me.wappen.neuralcreatures.*;
+import me.wappen.neuralcreatures.Drawable;
+import me.wappen.neuralcreatures.Main;
+import me.wappen.neuralcreatures.Tickable;
+import me.wappen.neuralcreatures.Transformable;
 import processing.core.PApplet;
 import processing.core.PVector;
 

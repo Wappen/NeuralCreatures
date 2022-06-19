@@ -2,7 +2,10 @@ package me.wappen.neuralcreatures.neural;
 
 import me.wappen.neuralcreatures.misc.Graph;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class NeuralNetwork {
     private final Graph<Neuron, Axon> neurons;

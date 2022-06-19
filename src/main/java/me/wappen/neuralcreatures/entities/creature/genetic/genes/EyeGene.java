@@ -1,8 +1,8 @@
 package me.wappen.neuralcreatures.entities.creature.genetic.genes;
 
 import me.wappen.neuralcreatures.entities.creature.genetic.CreaturePrototype;
-import me.wappen.neuralcreatures.genetic.Gene;
 import me.wappen.neuralcreatures.entities.creature.senses.VisionSense;
+import me.wappen.neuralcreatures.genetic.Gene;
 
 public class EyeGene implements Gene<CreaturePrototype> {
 

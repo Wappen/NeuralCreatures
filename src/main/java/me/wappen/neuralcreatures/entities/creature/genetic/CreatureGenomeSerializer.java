@@ -3,11 +3,11 @@ package me.wappen.neuralcreatures.entities.creature.genetic;
 import java.util.*;
 import java.util.function.Supplier;
 
-public class ConcreteGenomeSerializer implements GenomeSerializer {
+public class CreatureGenomeSerializer implements GenomeSerializer {
     Map<Long, Supplier<? extends Gene>> geneDeserializer;
     Map<Class<? extends Gene>, Long> geneIds;
 
-    public ConcreteGenomeSerializer() {
+    public CreatureGenomeSerializer() {
         geneDeserializer = new HashMap<>();
         geneIds = new HashMap<>();
     }

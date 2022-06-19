@@ -1,13 +1,12 @@
 package me.wappen.neuralcreatures;
 
 import me.wappen.neuralcreatures.debug.Debugger;
+import me.wappen.neuralcreatures.debug.StringDebugger;
 import me.wappen.neuralcreatures.entities.Entity;
 import processing.core.PApplet;
 import processing.core.PVector;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
-
-import java.util.Map;
 
 public class Main extends PApplet {
     private static Main instance;
@@ -75,11 +74,9 @@ public class Main extends PApplet {
         }
 
         if (selected != null) {
-            Debugger debugger = new Debugger();
-            selected.accept(debugger);
-            System.out.printf("%s%n", debugger.getTitle());
-            for (Map.Entry<String, String> entry : debugger.getAllInfo().entrySet())
-                System.out.printf("  %s: %s%n", entry.getKey(), entry.getValue());
+            Debugger debugger = new StringDebugger();
+            selected.debug(debugger);
+            System.out.println(debugger);
         }
     }
 

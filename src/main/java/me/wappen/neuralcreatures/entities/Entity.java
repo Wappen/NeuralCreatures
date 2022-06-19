@@ -18,7 +18,7 @@ public abstract class Entity implements Tickable, Drawable, Debuggable {
     }
 
     @Override
-    public void accept(Debugger debugger) {
+    public void debug(Debugger debugger) {
         debugger.setTitle("Entity [%d]".formatted(getId()));
     }
 

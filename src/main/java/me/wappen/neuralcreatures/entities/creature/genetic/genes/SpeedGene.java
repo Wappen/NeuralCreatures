@@ -4,7 +4,7 @@ import me.wappen.neuralcreatures.entities.creature.genetic.CreaturePrototype;
 import me.wappen.neuralcreatures.genetic.Gene;
 
 public class SpeedGene implements Gene<CreaturePrototype> {
-    float speed = 10f;
+    float speed = 1f;
 
     @Override
     public void applyTo(CreaturePrototype prototype) {

@@ -9,8 +9,8 @@ public class EyeGene implements Gene<CreaturePrototype> {
     @Override
     public void applyTo(CreaturePrototype prototype) {
         prototype.getSenses().addSense(new VisionSense(20, 2, 1));
-        prototype.getSenses().addSense(new VisionSense(40, 3, 1));
-        prototype.getSenses().addSense(new VisionSense(60, 5, 1));
+        prototype.getSenses().addSense(new VisionSense(40, 2, 1));
+        prototype.getSenses().addSense(new VisionSense(60, 3, 1));
     }
 
     @Override

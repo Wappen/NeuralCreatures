@@ -24,13 +24,13 @@ public class NeuralNetwork {
 
     public double[] process(double[] inputs) {
         if (inputs.length != sensingNeurons.size())
-            throw new IllegalArgumentException("inputValues' length does not match input layer's size");
+            throw new IllegalArgumentException("inputs' length does not match input layer's size");
 
         Map<Neuron, Double> traversed = new HashMap<>();
         {
             int i = 0;
             for (Neuron neuron : sensingNeurons)
-                traversed.put(neuron, neuron.bias() + neuron.activation().apply(inputs[i++]));
+                traversed.put(neuron, neuron.activation().apply(neuron.bias() + inputs[i++]));
         }
 
         double[] outputValues = new double[outputNeurons.size()];
@@ -45,20 +45,20 @@ public class NeuralNetwork {
     private double getValue(Map<Neuron, Double> cachedValues, Neuron neuron) {
         double sum = neuron.bias();
 
-        for (Map.Entry<Axon, Neuron> connections : neurons.getPrevious(neuron).entrySet()) {
-            Neuron prev = connections.getValue();
-            Axon axon = connections.getKey();
+        for (Map.Entry<Axon, Neuron> inputs : neurons.getPrevious(neuron).entrySet()) {
+            Neuron prev = inputs.getValue();
+            Axon axon = inputs.getKey();
 
             if (cachedValues.containsKey(prev)) {
-                sum += cachedValues.get(prev);
+                sum += cachedValues.get(prev) * axon.weight();
             }
             else {
-                double val = getValue(cachedValues, prev) * axon.weight();
-                cachedValues.put(prev, val);
-                sum += val;
+                sum += getValue(cachedValues, prev) * axon.weight();
             }
         }
 
-        return neuron.activation().apply(sum);
+        sum = neuron.activation().apply(sum);
+        cachedValues.put(neuron, sum);
+        return sum;
     }
 }

@@ -64,6 +64,7 @@ public class Creature extends Entity implements Transformable, Colorable, Creatu
         this.transform.setSize(10);
         this.transform.setDir(PVector.random2D());
 
+        this.genome = blueprint.getGenome();
         this.speed = blueprint.getSpeed();
         this.color = blueprint.getColor().copy();
         this.senses = (SensorySystem) blueprint.getSenses().copy();

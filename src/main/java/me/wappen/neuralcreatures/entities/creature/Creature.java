@@ -7,16 +7,10 @@ import me.wappen.neuralcreatures.entities.Plant;
 import me.wappen.neuralcreatures.entities.creature.genetic.ConcreteGenomeSerializer;
 import me.wappen.neuralcreatures.entities.creature.genetic.CreatureBirther;
 import me.wappen.neuralcreatures.entities.creature.genetic.Genome;
-import me.wappen.neuralcreatures.entities.creature.genetic.GenomeSerializer;
 import me.wappen.neuralcreatures.entities.creature.genetic.genes.*;
-import me.wappen.neuralcreatures.entities.creature.muscles.MoveMuscle;
 import me.wappen.neuralcreatures.entities.creature.muscles.MuscleSystem;
-import me.wappen.neuralcreatures.entities.creature.senses.HealthSense;
 import me.wappen.neuralcreatures.entities.creature.senses.SensorySystem;
-import me.wappen.neuralcreatures.entities.creature.senses.VisionSense;
-import me.wappen.neuralcreatures.neural.NNUtils;
 import me.wappen.neuralcreatures.neural.NeuralNetwork;
-import me.wappen.neuralcreatures.neural.builder.LayeredNetworkBuilder;
 import processing.core.PApplet;
 import processing.core.PVector;
 

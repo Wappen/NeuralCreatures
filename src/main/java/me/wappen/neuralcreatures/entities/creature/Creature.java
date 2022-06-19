@@ -38,31 +38,6 @@ public class Creature extends Entity implements Transformable, Colorable, Creatu
     private float energy = 1f;
     private float health = 1f;
 
-    public Creature(PVector pos) {
-        this.transform.setPos(pos);
-        this.transform.setSize(10);
-        this.transform.setDir(PVector.random2D());
-        this.speed = 1;
-
-        senses = new SensorySystem();
-        senses.addSense(new HealthSense());
-        senses.addSense(new VisionSense(20, 2, 1));
-        senses.addSense(new VisionSense(40, 2, 1));
-        senses.addSense(new VisionSense(60, 4, 1));
-
-        muscles = new MuscleSystem();
-        muscles.addMuscle(new MoveMuscle());
-
-        this.brain = new LayeredNetworkBuilder()
-                .addInputLayer(senses.getResolution(), NNUtils::map01)
-                .addHiddenLayer(4, NNUtils::reLU)
-                .addOutputLayer(muscles.getResolution(), NNUtils::map11)
-                .build();
-
-        //color = new PVector(255, 100, 100);
-        color = PVector.random3D().add(1, 1, 1).mult(0.5f).mult(255);
-    }
-
     public Creature(CreatureBlueprint blueprint) {
         this.transform.setSize(10);
         this.transform.setDir(PVector.random2D());
@@ -79,7 +54,7 @@ public class Creature extends Entity implements Transformable, Colorable, Creatu
     public void tick() {
         float aggravationRate = 0.01f;
         float healRate = 0.001f;
-        float starvationRate = 0.01f;
+        float starvationRate = 0.005f;
 
         if (energy <= 0)
             health -= aggravationRate;
@@ -154,7 +129,7 @@ public class Creature extends Entity implements Transformable, Colorable, Creatu
     public void move(PVector dir) {
         dir.limit(1f);
         if (dir.mag() > 0) {
-            float exhaustionFactor = 0.0005f;
+            float exhaustionFactor = 0.00025f;
             energy -= dir.mag() * exhaustionFactor;
             transform.setDir(dir);
             transform.translate(dir.copy().mult(speed));

@@ -44,7 +44,7 @@ public class Transform {
     }
 
     public PVector getPos() {
-        return pos;
+        return pos.copy();
     }
 
     public void setPos(PVector pos) {
@@ -60,7 +60,7 @@ public class Transform {
     }
 
     public PVector getDir() {
-        return dir;
+        return dir.copy();
     }
 
     public void setDir(PVector dir) {

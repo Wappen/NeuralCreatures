@@ -70,7 +70,7 @@ public class Main extends PApplet {
             strokeWeight(0);
             textSize(100);
             textAlign(LEFT, TOP);
-            text(simulator.isFastForward() ? ">>" : simulator.isPaused() ? "||" : "???", 0, 0);
+            text(">>", 0, 0);
         }
 
         if (selected != null) {

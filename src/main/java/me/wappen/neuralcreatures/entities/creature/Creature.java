@@ -105,7 +105,7 @@ public class Creature extends Entity implements Transformable, Colorable, Creatu
         applet.noStroke();
 
         // Draw pupil
-        PVector pupilPos = eyePos.add(dir.copy().rotate(smoothSquareWave(applet.frameCount / 30f + color.x)));
+        PVector pupilPos = eyePos.add(dir.rotate(smoothSquareWave(applet.frameCount / 30f + color.x)));
         applet.fill(0);
         applet.ellipse(pupilPos.x, pupilPos.y, size / 5, size / 5);
 
@@ -128,7 +128,7 @@ public class Creature extends Entity implements Transformable, Colorable, Creatu
         PVector dir = transform.getDir();
         float size = transform.getSize();
 
-        return pos.copy().add(dir.copy().mult(size / 3));
+        return pos.add(dir.mult(size / 3));
     }
 
     @Override

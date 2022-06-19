@@ -28,7 +28,7 @@ public class Path implements Tickable, Drawable {
         float pathSections = 200;
 
         if (path.isEmpty() || ticks % ticksBetweenSection == 0)
-            path.add(tracer.getTransform().getPos().copy());
+            path.add(tracer.getTransform().getPos());
 
         while (path.size() > pathSections)
             path.remove();

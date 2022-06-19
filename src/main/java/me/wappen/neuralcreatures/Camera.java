@@ -11,7 +11,7 @@ public class Camera implements Transformable, Tickable {
 
     public Camera(Transform transform) {
         this.transform = transform;
-        this.target = new Transform(transform.getPos().copy(), transform.getSize());
+        this.target = new Transform(transform.getPos(), transform.getSize());
         this.stiffness = .3f;
     }
 

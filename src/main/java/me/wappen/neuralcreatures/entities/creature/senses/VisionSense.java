@@ -21,13 +21,13 @@ public class VisionSense implements Sense {
         double[] arr = new double[getResolution()];
 
         PVector eyePos = creature.getEyePos();
-        PVector dir = creature.getTransform().getDir().copy().mult(eyeDist);
+        PVector dir = creature.getTransform().getDir().mult(eyeDist);
 
         dir.rotate(-fov / 2f);
         dir.rotate((fov / res) / 2f);
 
         for (int i = 0; i < res; i++) {
-            Entity hit = creature.getWorld().getEntityAtCoord(eyePos.copy().add(dir));
+            Entity hit = creature.getWorld().getEntityAtCoord(eyePos.add(dir));
 
             if (hit instanceof Colorable entity) {
                 arr[i * 3] = entity.getColor().x;

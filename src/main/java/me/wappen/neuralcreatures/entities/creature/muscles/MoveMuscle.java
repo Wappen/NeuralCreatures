@@ -13,7 +13,7 @@ public class MoveMuscle implements Muscle {
         float speed = Math.min(Math.max((float) output[2] / scale, 0), 1);
 
         creature.getTransform().rotate((float) ((left - right) / Math.PI));
-        creature.move(creature.getTransform().getDir().copy().mult(speed));
+        creature.move(creature.getTransform().getDir().mult(speed));
     }
 
     @Override

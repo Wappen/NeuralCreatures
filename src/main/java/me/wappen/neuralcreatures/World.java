@@ -3,8 +3,7 @@ package me.wappen.neuralcreatures;
 import me.wappen.neuralcreatures.entities.Entity;
 import me.wappen.neuralcreatures.entities.creature.*;
 import me.wappen.neuralcreatures.entities.Plant;
-import me.wappen.neuralcreatures.entities.creature.genes.*;
-import me.wappen.neuralcreatures.entities.creature.CreatureGenome;
+import me.wappen.neuralcreatures.entities.creature.genetic.CreatureGenome;
 import me.wappen.neuralcreatures.misc.ChunkSpace;
 import me.wappen.neuralcreatures.misc.Space;
 import processing.core.PApplet;
@@ -30,12 +29,6 @@ public class World implements Tickable, Drawable {
 
         massSpawn(pos -> {
             CreatureGenome genome = new CreatureGenome();
-            genome.addGene(new EyeGene());
-            genome.addGene(new LegGene());
-            genome.addGene(new SpeedGene());
-            genome.addGene(new BrainGene());
-            genome.addGene(new ColorGene());
-
             Creature creature = new Creature(genome.createPrototype());
             creature.getTransform().setPos(pos);
             spawn(creature);

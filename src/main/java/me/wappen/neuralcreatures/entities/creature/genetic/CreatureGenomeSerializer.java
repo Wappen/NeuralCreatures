@@ -1,6 +1,6 @@
-package me.wappen.neuralcreatures.entities.creature;
+package me.wappen.neuralcreatures.entities.creature.genetic;
 
-import me.wappen.neuralcreatures.entities.creature.genes.*;
+import me.wappen.neuralcreatures.entities.creature.genetic.genes.*;
 import me.wappen.neuralcreatures.genetic.Gene;
 import me.wappen.neuralcreatures.genetic.Genome;
 import me.wappen.neuralcreatures.genetic.GenomeSerializer;

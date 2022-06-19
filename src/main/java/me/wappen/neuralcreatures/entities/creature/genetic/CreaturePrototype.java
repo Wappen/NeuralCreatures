@@ -1,5 +1,6 @@
-package me.wappen.neuralcreatures.entities.creature;
+package me.wappen.neuralcreatures.entities.creature.genetic;
 
+import me.wappen.neuralcreatures.entities.creature.CreatureBlueprint;
 import me.wappen.neuralcreatures.entities.creature.muscles.MuscleSystem;
 import me.wappen.neuralcreatures.entities.creature.senses.SensorySystem;
 import me.wappen.neuralcreatures.neural.NeuralNetwork;

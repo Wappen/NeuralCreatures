@@ -4,6 +4,8 @@ import me.wappen.neuralcreatures.*;
 import me.wappen.neuralcreatures.debug.Debugger;
 import me.wappen.neuralcreatures.entities.Entity;
 import me.wappen.neuralcreatures.entities.Plant;
+import me.wappen.neuralcreatures.entities.creature.genetic.CreatureGenome;
+import me.wappen.neuralcreatures.entities.creature.genetic.CreatureGenomeSerializer;
 import me.wappen.neuralcreatures.entities.creature.muscles.MuscleSystem;
 import me.wappen.neuralcreatures.entities.creature.senses.SensorySystem;
 import me.wappen.neuralcreatures.neural.NeuralNetwork;

@@ -1,5 +1,7 @@
 package me.wappen.neuralcreatures.entities.creature;
 
+import me.wappen.neuralcreatures.entities.creature.genetic.CreatureGenome;
+import me.wappen.neuralcreatures.entities.creature.genetic.CreaturePrototype;
 import me.wappen.neuralcreatures.genetic.GenomeSerializer;
 
 public class CreatureBirther implements CreatureBuilder {

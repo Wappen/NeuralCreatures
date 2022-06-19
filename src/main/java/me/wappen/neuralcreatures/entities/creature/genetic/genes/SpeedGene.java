@@ -1,6 +1,6 @@
-package me.wappen.neuralcreatures.entities.creature.genes;
+package me.wappen.neuralcreatures.entities.creature.genetic.genes;
 
-import me.wappen.neuralcreatures.entities.creature.CreaturePrototype;
+import me.wappen.neuralcreatures.entities.creature.genetic.CreaturePrototype;
 import me.wappen.neuralcreatures.genetic.Gene;
 
 public class SpeedGene implements Gene<CreaturePrototype> {

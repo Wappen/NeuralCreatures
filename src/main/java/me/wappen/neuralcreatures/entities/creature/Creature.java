@@ -81,6 +81,7 @@ public class Creature extends Entity implements Transformable, Colorable, Creatu
 
     private void giveBirth() {
         energy -= 3;
+        Main.getInstance().rect(getTransform().getPos().x, getTransform().getPos().y, 100, 100);
         getWorld().deferTask(() -> {
             CreatureGenomeSerializer serializer = new CreatureGenomeSerializer();
             Creature child = new CreatureBirther(serializer, genome, genome).build();

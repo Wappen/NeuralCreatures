@@ -34,7 +34,7 @@ public class World implements Tickable, Drawable {
             spawn(creature);
         }, 500, new PVector(-worldSize, -worldSize), new PVector(worldSize, worldSize));
 
-        massSpawn(pos -> spawn(new Plant(pos, rng.nextFloat())), 1000,
+        massSpawn(pos -> spawn(new Plant(pos, rng.nextFloat())), 2000,
                 new PVector(-worldSize, -worldSize), new PVector(worldSize, worldSize));
     }
 

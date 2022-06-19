@@ -31,8 +31,8 @@ public class Plant extends Entity implements Transformable, Colorable {
     }
 
     @Override
-    public void accept(Debugger debugger) {
-        super.accept(debugger);
+    public void debug(Debugger debugger) {
+        super.debug(debugger);
         debugger.setInfo("Growth", transform.getSize() / maxSize);
         debugger.setInfo("Nutrition", getNutritionValue());
         debugger.setInfo("MaxSize", maxSize);

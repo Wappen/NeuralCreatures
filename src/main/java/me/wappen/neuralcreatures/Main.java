@@ -76,10 +76,8 @@ public class Main extends PApplet {
 
         if (selected != null) {
             Debugger debugger = new Debugger();
-            selected.accept(debugger);
-            System.out.printf("%s%n", debugger.getTitle());
-            for (Map.Entry<String, String> entry : debugger.getAllInfo().entrySet())
-                System.out.printf("  %s: %s%n", entry.getKey(), entry.getValue());
+            selected.debug(debugger);
+            System.out.println(debugger);
         }
     }
 

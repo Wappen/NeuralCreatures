@@ -15,15 +15,15 @@ public class Debugger {
         info.put(name, value.toString());
     }
 
-    public Map<String, String> getAllInfo() {
-        return info;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder(String.format("%s%n", title));
+        for (Map.Entry<String, String> entry : info.entrySet())
+            sb.append(String.format("  %s: %s%n", entry.getKey(), entry.getValue()));
+        return sb.toString();
     }
 }

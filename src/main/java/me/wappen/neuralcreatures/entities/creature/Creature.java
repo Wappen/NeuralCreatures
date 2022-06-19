@@ -4,7 +4,7 @@ import me.wappen.neuralcreatures.*;
 import me.wappen.neuralcreatures.debug.Debugger;
 import me.wappen.neuralcreatures.entities.Entity;
 import me.wappen.neuralcreatures.entities.Plant;
-import me.wappen.neuralcreatures.entities.creature.genetic.ConcreteGenomeSerializer;
+import me.wappen.neuralcreatures.entities.creature.genetic.CreatureGenomeSerializer;
 import me.wappen.neuralcreatures.entities.creature.genetic.CreatureBirther;
 import me.wappen.neuralcreatures.entities.creature.genetic.Genome;
 import me.wappen.neuralcreatures.entities.creature.genetic.genes.*;
@@ -22,7 +22,7 @@ public class Creature extends Entity implements Transformable, Colorable, Creatu
     private final float speed;
     private final PVector color;
 
-    private Genome genome;
+    private final Genome genome;
     private final SensorySystem senses;
     private final MuscleSystem muscles;
     private final NeuralNetwork brain;
@@ -81,7 +81,7 @@ public class Creature extends Entity implements Transformable, Colorable, Creatu
     private void giveBirth() {
         energy -= 3;
         getWorld().deferTask(() -> {
-            ConcreteGenomeSerializer serializer = new ConcreteGenomeSerializer();
+            CreatureGenomeSerializer serializer = new CreatureGenomeSerializer();
             serializer.registerGene(BrainGene.class, BrainGene::new);
             serializer.registerGene(ColorGene.class, ColorGene::new);
             serializer.registerGene(EyeGene.class, EyeGene::new);
@@ -139,10 +139,12 @@ public class Creature extends Entity implements Transformable, Colorable, Creatu
     }
 
     @Override
-    public void accept(Debugger debugger) {
-        super.accept(debugger);
+    public void debug(Debugger debugger) {
+        super.debug(debugger);
         debugger.setInfo("Health", health);
         debugger.setInfo("Energy", energy);
+        debugger.setInfo("Speed", speed);
+        debugger.setInfo("Color", color);
     }
 
     public float getEnergy() {

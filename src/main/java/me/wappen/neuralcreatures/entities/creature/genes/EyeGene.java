@@ -1,10 +1,10 @@
-package me.wappen.neuralcreatures.entities.creature.genetic.genes;
+package me.wappen.neuralcreatures.entities.creature.genes;
 
-import me.wappen.neuralcreatures.entities.creature.genetic.CreaturePrototype;
-import me.wappen.neuralcreatures.entities.creature.genetic.Gene;
+import me.wappen.neuralcreatures.entities.creature.CreaturePrototype;
+import me.wappen.neuralcreatures.genetic.Gene;
 import me.wappen.neuralcreatures.entities.creature.senses.VisionSense;
 
-public class EyeGene implements Gene {
+public class EyeGene implements Gene<CreaturePrototype> {
 
     @Override
     public void applyTo(CreaturePrototype prototype) {

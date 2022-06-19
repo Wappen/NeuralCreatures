@@ -1,10 +1,10 @@
-package me.wappen.neuralcreatures.entities.creature.genetic.genes;
+package me.wappen.neuralcreatures.entities.creature.genes;
 
-import me.wappen.neuralcreatures.entities.creature.genetic.CreaturePrototype;
-import me.wappen.neuralcreatures.entities.creature.genetic.Gene;
+import me.wappen.neuralcreatures.entities.creature.CreaturePrototype;
+import me.wappen.neuralcreatures.genetic.Gene;
 import processing.core.PVector;
 
-public class ColorGene implements Gene {
+public class ColorGene implements Gene<CreaturePrototype> {
     @Override
     public void applyTo(CreaturePrototype prototype) {
         prototype.setColor(PVector.random3D().add(1, 1, 1).mult(0.5f).mult(255));

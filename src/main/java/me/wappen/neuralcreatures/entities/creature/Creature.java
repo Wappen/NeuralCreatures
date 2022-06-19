@@ -4,9 +4,6 @@ import me.wappen.neuralcreatures.*;
 import me.wappen.neuralcreatures.debug.Debugger;
 import me.wappen.neuralcreatures.entities.Entity;
 import me.wappen.neuralcreatures.entities.Plant;
-import me.wappen.neuralcreatures.entities.creature.genetic.CreatureGenomeSerializer;
-import me.wappen.neuralcreatures.entities.creature.genetic.CreatureBirther;
-import me.wappen.neuralcreatures.entities.creature.genetic.Genome;
 import me.wappen.neuralcreatures.entities.creature.muscles.MuscleSystem;
 import me.wappen.neuralcreatures.entities.creature.senses.SensorySystem;
 import me.wappen.neuralcreatures.neural.NeuralNetwork;
@@ -21,7 +18,7 @@ public class Creature extends Entity implements Transformable, Colorable, Creatu
     private final float speed;
     private final PVector color;
 
-    private final Genome genome;
+    private final CreatureGenome genome;
     private final SensorySystem senses;
     private final MuscleSystem muscles;
     private final NeuralNetwork brain;
@@ -155,7 +152,7 @@ public class Creature extends Entity implements Transformable, Colorable, Creatu
     }
 
     @Override
-    public Genome getGenome() {
+    public CreatureGenome getGenome() {
         return genome;
     }
 

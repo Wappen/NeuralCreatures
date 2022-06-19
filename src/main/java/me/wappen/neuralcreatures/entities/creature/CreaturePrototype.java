@@ -1,6 +1,5 @@
-package me.wappen.neuralcreatures.entities.creature.genetic;
+package me.wappen.neuralcreatures.entities.creature;
 
-import me.wappen.neuralcreatures.entities.creature.CreatureBlueprint;
 import me.wappen.neuralcreatures.entities.creature.muscles.MuscleSystem;
 import me.wappen.neuralcreatures.entities.creature.senses.SensorySystem;
 import me.wappen.neuralcreatures.neural.NeuralNetwork;
@@ -8,7 +7,7 @@ import processing.core.PVector;
 
 public class CreaturePrototype implements CreatureBlueprint {
 
-    private Genome genome;
+    private CreatureGenome genome;
     private float speed = 0;
     private PVector color = new PVector(0, 0, 0);
     private SensorySystem senses = new SensorySystem();
@@ -16,7 +15,7 @@ public class CreaturePrototype implements CreatureBlueprint {
     private NeuralNetwork brain = null;
 
     @Override
-    public Genome getGenome() {
+    public CreatureGenome getGenome() {
         return genome;
     }
 
@@ -45,7 +44,7 @@ public class CreaturePrototype implements CreatureBlueprint {
         return brain;
     }
 
-    public void setGenome(Genome genome) {
+    public void setGenome(CreatureGenome genome) {
         this.genome = genome;
     }
 

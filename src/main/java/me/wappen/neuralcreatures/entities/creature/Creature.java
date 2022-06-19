@@ -30,8 +30,8 @@ public class Creature extends Entity implements Transformable, Colorable, Creatu
 
     private final Path path = new Path(this);
 
-    private float energy = 1f;
-    private float health = 1f;
+    private float energy = 100f;
+    private float health = 100f;
 
     public Creature(CreatureBlueprint blueprint) {
         this.transform.setSize(10);
@@ -47,13 +47,13 @@ public class Creature extends Entity implements Transformable, Colorable, Creatu
 
     @Override
     public void tick() {
-        float aggravationRate = 0.01f;
-        float healRate = 0.001f;
-        float starvationRate = 0.005f;
+        float aggravationRate = 1.0f;
+        float healRate = 0.1f;
+        float starvationRate = 0.5f;
 
         if (energy <= 0)
             health -= aggravationRate;
-        if (health <= 1)
+        if (health <= 100)
             health += healRate;
 
         energy -= starvationRate;
@@ -72,7 +72,7 @@ public class Creature extends Entity implements Transformable, Colorable, Creatu
             }
         }
 
-        if (energy > 4)
+        if (energy > 200f)
             giveBirth();
 
         if (health <= 0)
@@ -80,7 +80,7 @@ public class Creature extends Entity implements Transformable, Colorable, Creatu
     }
 
     private void giveBirth() {
-        energy -= 3;
+        energy = 100f;
         getWorld().deferTask(() -> {
             CreatureGenomeSerializer serializer = new CreatureGenomeSerializer();
             Creature child = new CreatureBirther(serializer, genome, genome).build();
@@ -119,10 +119,10 @@ public class Creature extends Entity implements Transformable, Colorable, Creatu
     public void move(PVector dir) {
         dir.limit(1f);
         if (dir.mag() > 0) {
-            float exhaustionFactor = 0.00025f;
+            float exhaustionFactor = 0.025f;
             energy -= dir.mag() * exhaustionFactor;
             transform.setDir(dir);
-            transform.translate(dir.copy().mult(speed));
+            transform.translate(dir.mult(speed));
         }
     }
 

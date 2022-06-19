@@ -39,7 +39,7 @@ public class Plant extends Entity implements Transformable, Colorable {
     }
 
     public float getNutritionValue() {
-        return transform.getSize() / 5f;
+        return transform.getSize() * 5f;
     }
 
     @Override

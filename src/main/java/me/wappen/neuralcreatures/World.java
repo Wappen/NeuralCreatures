@@ -32,7 +32,7 @@ public class World implements Tickable, Drawable {
             Creature creature = new Creature(genome.createPrototype());
             creature.getTransform().setPos(pos);
             spawn(creature);
-        }, 500, new PVector(-worldSize, -worldSize), new PVector(worldSize, worldSize));
+        }, 200, new PVector(-worldSize, -worldSize), new PVector(worldSize, worldSize));
 
         massSpawn(pos -> spawn(new Plant(pos, rng.nextFloat())), 2000,
                 new PVector(-worldSize, -worldSize), new PVector(worldSize, worldSize));

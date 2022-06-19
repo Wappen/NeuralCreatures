@@ -1,10 +1,10 @@
-package me.wappen.neuralcreatures.entities.creature.genetic.genes;
+package me.wappen.neuralcreatures.entities.creature.genes;
 
-import me.wappen.neuralcreatures.entities.creature.genetic.CreaturePrototype;
-import me.wappen.neuralcreatures.entities.creature.genetic.Gene;
+import me.wappen.neuralcreatures.entities.creature.CreaturePrototype;
+import me.wappen.neuralcreatures.genetic.Gene;
 import me.wappen.neuralcreatures.entities.creature.muscles.MoveMuscle;
 
-public class LegGene implements Gene {
+public class LegGene implements Gene<CreaturePrototype> {
     @Override
     public void applyTo(CreaturePrototype prototype) {
         prototype.getMuscles().addMuscle(new MoveMuscle());

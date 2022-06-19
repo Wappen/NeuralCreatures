@@ -1,14 +1,13 @@
-package me.wappen.neuralcreatures.entities.creature.genetic;
+package me.wappen.neuralcreatures.entities.creature;
 
-import me.wappen.neuralcreatures.entities.creature.Creature;
-import me.wappen.neuralcreatures.entities.creature.CreatureBuilder;
+import me.wappen.neuralcreatures.genetic.GenomeSerializer;
 
 public class CreatureBirther implements CreatureBuilder {
     private final GenomeSerializer serializer;
-    private final Genome mother;
-    private final Genome father;
+    private final CreatureGenome mother;
+    private final CreatureGenome father;
 
-    public CreatureBirther(GenomeSerializer serializer, Genome mother, Genome father) {
+    public CreatureBirther(GenomeSerializer serializer, CreatureGenome mother, CreatureGenome father) {
         this.serializer = serializer;
         this.mother = mother;
         this.father = father;

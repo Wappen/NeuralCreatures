@@ -1,13 +1,16 @@
-package me.wappen.neuralcreatures.entities.creature.genetic;
+package me.wappen.neuralcreatures.entities.creature;
 
-import me.wappen.neuralcreatures.entities.creature.genetic.genes.*;
+import me.wappen.neuralcreatures.entities.creature.genes.*;
+import me.wappen.neuralcreatures.genetic.Gene;
+import me.wappen.neuralcreatures.genetic.Genome;
+import me.wappen.neuralcreatures.genetic.GenomeSerializer;
 
 import java.util.*;
 import java.util.function.Supplier;
 
-public class CreatureGenomeSerializer implements GenomeSerializer {
-    Map<Long, Supplier<? extends Gene>> geneDeserializer;
-    Map<Class<? extends Gene>, Long> geneIds;
+public class CreatureGenomeSerializer implements GenomeSerializer<CreaturePrototype> {
+    Map<Long, Supplier<? extends Gene<CreaturePrototype>>> geneDeserializer;
+    Map<Class<? extends Gene<CreaturePrototype>>, Long> geneIds;
 
     public CreatureGenomeSerializer() {
         geneDeserializer = new HashMap<>();
@@ -20,18 +23,18 @@ public class CreatureGenomeSerializer implements GenomeSerializer {
         registerGene(SpeedGene.class, SpeedGene::new);
     }
 
-    public <T extends Gene> void registerGene(Class<T> geneClass, Supplier<T> supplier) {
+    public <T extends Gene<CreaturePrototype>> void registerGene(Class<T> geneClass, Supplier<T> supplier) {
         geneDeserializer.put((long) geneIds.size(), supplier);
         geneIds.put(geneClass, (long) geneIds.size());
     }
 
     @Override
-    public Genome deserialize(final long[] arr) {
-        Genome genome = new Genome();
+    public Genome<CreaturePrototype> deserialize(final long[] arr) {
+        CreatureGenome genome = new CreatureGenome();
 
         for (int i = 0; i < arr.length; i++) {
             long id = arr[i];
-            Gene gene = geneDeserializer.get(id).get();
+            Gene<CreaturePrototype> gene = geneDeserializer.get(id).get();
             i += gene.deserialize(arr, i + 1); // Skip everything that was used by the gene
             genome.addGene(gene);
         }
@@ -40,9 +43,9 @@ public class CreatureGenomeSerializer implements GenomeSerializer {
     }
 
     @Override
-    public long[] serialize(Genome genome) {
+    public long[] serialize(Genome<CreaturePrototype> genome) {
         List<long[]> list = new ArrayList<>();
-        for (Gene gene : genome.genes) {
+        for (Gene<CreaturePrototype> gene : genome.getGenes()) {
             list.add(new long[] { geneIds.get(gene.getClass()) }); // Add identifier
             list.add(gene.serialize());
         }

@@ -1,9 +1,9 @@
-package me.wappen.neuralcreatures.entities.creature.genetic.genes;
+package me.wappen.neuralcreatures.entities.creature.genes;
 
-import me.wappen.neuralcreatures.entities.creature.genetic.CreaturePrototype;
-import me.wappen.neuralcreatures.entities.creature.genetic.Gene;
+import me.wappen.neuralcreatures.entities.creature.CreaturePrototype;
+import me.wappen.neuralcreatures.genetic.Gene;
 
-public class SpeedGene implements Gene {
+public class SpeedGene implements Gene<CreaturePrototype> {
     float speed = 10f;
 
     @Override

@@ -1,9 +1,13 @@
 package me.wappen.neuralcreatures.entities.creature.senses;
 
 import me.wappen.neuralcreatures.Colorable;
+import me.wappen.neuralcreatures.Transformable;
+import me.wappen.neuralcreatures.World;
 import me.wappen.neuralcreatures.entities.Entity;
 import me.wappen.neuralcreatures.entities.creature.Creature;
 import processing.core.PVector;
+
+import java.util.List;
 
 public class VisionSense implements Sense {
     private final float eyeDist; // dist of the so called 'eyes' from the 'real' 'eye'
@@ -27,7 +31,7 @@ public class VisionSense implements Sense {
         dir.rotate((fov / res) / 2f);
 
         for (int i = 0; i < res; i++) {
-            Entity hit = creature.getWorld().getEntityAtCoord(eyePos.add(dir));
+            Entity hit = getHit(creature.getWorld(), creature.getTransform().getPos(), dir);
 
             if (hit instanceof Colorable entity) {
                 arr[i * 3] = entity.getColor().x;
@@ -43,6 +47,23 @@ public class VisionSense implements Sense {
         }
 
         return arr;
+    }
+
+    private Entity getHit(World world, PVector pos, PVector dir) {
+        List<Entity> hits = world.getEntitiesBetween(pos, pos.copy().add(dir));
+
+        Entity closest = null;
+        float closestDist = Float.MAX_VALUE;
+
+        for (Entity hit : hits) {
+            float dist = ((Transformable) hit).getTransform().getPos().dist(pos);
+            if (dist < closestDist) {
+                closest = hit;
+                closestDist = dist;
+            }
+        }
+
+        return closest;
     }
 
     @Override

@@ -32,17 +32,60 @@ public class ChunkSpace<T> implements Space<T> {
 
     @Override
     public Collection<T> getClosest(PVector pos) {
-        int origX = (int) (pos.x / chunkSize);
-        int origY = (int) (pos.y / chunkSize);
+        int chunkX = (int) (pos.x / chunkSize);
+        int chunkY = (int) (pos.y / chunkSize);
+        return getClosest(chunkX, chunkY);
+    }
+
+    private Collection<T> getClosest(int chunkX, int chunkY) {
         Collection<T> objects = new HashSet<>();
 
         for (int x = -1; x < 1; x++) {
             for (int y = -1; y < 1; y++) {
-                Chunk<T> chunk = chunkAt(origX + x, origY + y);
+                Chunk<T> chunk = chunkAt(chunkX + x, chunkY + y);
                 if (chunk != null)
                     objects.addAll(chunk.getObjects());
             }
         }
+        return objects;
+    }
+
+    @Override
+    public Collection<T> getBetween(PVector start, PVector end) {
+        int chunkStartX = (int) (start.x / chunkSize);
+        int chunkStartY = (int) (start.y / chunkSize);
+        int chunkEndX = (int) (end.x / chunkSize);
+        int chunkEndY = (int) (end.y / chunkSize);
+
+        int diffX = Math.abs(chunkStartX - chunkEndX);
+        int diffY = Math.abs(chunkStartY - chunkEndY);
+
+        Set<PVector> chunks = new HashSet<>();
+
+        float slopeX = (float)diffX / (float)diffY;
+        float slopeY = (float)diffY / (float)diffX;
+
+        {
+            float y = chunkStartY;
+            for (int x = 0; x < diffX; x++) {
+                chunks.add(new PVector(x + chunkStartX, y + chunkStartY));
+                y += slopeY;
+            }
+        }
+
+        {
+            float x = chunkStartX;
+            for (int y = 0; y < diffY; y++) {
+                chunks.add(new PVector(x + chunkStartX, y + chunkStartY));
+                x += slopeX;
+            }
+        }
+
+        Collection<T> objects = new HashSet<>();
+
+        for (PVector chunk : chunks)
+            objects.addAll(getClosest((int)chunk.x, (int)chunk.y));
+
         return objects;
     }
 

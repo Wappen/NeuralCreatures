@@ -9,5 +9,6 @@ public interface Space<T> {
     void addObj(T obj, Supplier<PVector> pos);
     void removeObj(T obj);
     Collection<T> getClosest(PVector pos);
+    Collection<T> getBetween(PVector start, PVector end);
     void update();
 }

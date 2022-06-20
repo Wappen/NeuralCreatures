@@ -6,6 +6,7 @@ import me.wappen.neuralcreatures.entities.creature.Creature;
 import me.wappen.neuralcreatures.entities.creature.genetic.CreatureGenome;
 import me.wappen.neuralcreatures.misc.ChunkSpace;
 import me.wappen.neuralcreatures.misc.Space;
+import me.wappen.neuralcreatures.misc.Utils;
 import processing.core.PApplet;
 import processing.core.PVector;
 
@@ -57,6 +58,20 @@ public class World implements Tickable, Drawable {
             if (e instanceof Transformable entity) {
                 PVector normalizedCoord = coord.copy().sub(entity.getTransform().getPos());
                 if (normalizedCoord.mag() < radius + entity.getTransform().getSize() / 2)
+                    hits.add(e);
+            }
+        }
+
+        return hits;
+    }
+
+    public List<Entity> getEntitiesBetween(PVector start, PVector end) {
+        List<Entity> hits = new ArrayList<>();
+
+        for (Entity e : entitySpace.getBetween(start, end)) {
+            if (e instanceof Transformable entity) {
+                if (Utils.circleLineIntersection(start, end,
+                        entity.getTransform().getPos(), entity.getTransform().getSize() / 2))
                     hits.add(e);
             }
         }

@@ -1,6 +1,5 @@
 package me.wappen.neuralcreatures.entities.creature.genetic;
 
-import me.wappen.neuralcreatures.entities.creature.genetic.genes.*;
 import me.wappen.neuralcreatures.genetic.Gene;
 import me.wappen.neuralcreatures.genetic.Genome;
 
@@ -12,12 +11,6 @@ public class CreatureGenome implements Genome<CreaturePrototype> {
 
     public CreatureGenome() {
         this.genes = new LinkedList<>();
-
-        addGene(new EyeGene());
-        addGene(new LegGene());
-        addGene(new SpeedGene());
-        addGene(new BrainGene());
-        addGene(new ColorGene());
     }
 
     @Override

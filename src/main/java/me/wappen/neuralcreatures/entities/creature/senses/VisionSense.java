@@ -34,9 +34,9 @@ public class VisionSense implements Sense {
             Entity hit = getHit(creature.getWorld(), creature.getTransform().getPos(), dir);
 
             if (hit instanceof Colorable entity) {
-                arr[i * 3] = entity.getColor().x;
-                arr[i * 3 + 1] = entity.getColor().y;
-                arr[i * 3 + 2] = entity.getColor().z;
+                arr[i * 3] = entity.getColor().x / 255;
+                arr[i * 3 + 1] = entity.getColor().y / 255;
+                arr[i * 3 + 2] = entity.getColor().z / 255;
             }
             else {
                 arr[i * 3] = 0;

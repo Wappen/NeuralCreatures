@@ -5,7 +5,7 @@ import me.wappen.neuralcreatures.entities.creature.Creature;
 public class HealthSense implements Sense {
     @Override
     public double[] get(Creature creature) {
-        return new double[] { creature.getEnergy(), creature.getHealth() };
+        return new double[] { creature.getEnergy() / 100f, creature.getHealth() / 100f };
     }
 
     @Override

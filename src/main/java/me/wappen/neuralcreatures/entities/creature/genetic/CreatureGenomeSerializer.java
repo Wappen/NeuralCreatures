@@ -16,11 +16,12 @@ public class CreatureGenomeSerializer implements GenomeSerializer<CreatureProtot
         geneDeserializer = new HashMap<>();
         geneIds = new HashMap<>();
 
-        registerGene(BrainGene.class, BrainGene::new);
-        registerGene(ColorGene.class, ColorGene::new);
         registerGene(EyeGene.class, EyeGene::new);
         registerGene(LegGene.class, LegGene::new);
         registerGene(SpeedGene.class, SpeedGene::new);
+        registerGene(BrainGene.class, BrainGene::new);
+        registerGene(ColorGene.class, ColorGene::new);
+        registerGene(HealthSenseGene.class, HealthSenseGene::new);
     }
 
     public <T extends Gene<CreaturePrototype>> void registerGene(Class<T> geneClass, Supplier<T> supplier) {

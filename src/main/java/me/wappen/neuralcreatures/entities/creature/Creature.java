@@ -1,9 +1,6 @@
 package me.wappen.neuralcreatures.entities.creature;
 
-import me.wappen.neuralcreatures.Colorable;
-import me.wappen.neuralcreatures.Main;
-import me.wappen.neuralcreatures.Transform;
-import me.wappen.neuralcreatures.Transformable;
+import me.wappen.neuralcreatures.*;
 import me.wappen.neuralcreatures.debug.Debugger;
 import me.wappen.neuralcreatures.entities.Entity;
 import me.wappen.neuralcreatures.entities.Plant;
@@ -30,8 +27,8 @@ public class Creature extends Entity implements Transformable, Colorable, Creatu
 
     private final Path path = new Path(this);
 
-    private float energy = 100f;
-    private float health = 100f;
+    private float energy = Properties.Creature.MAX_ENERGY;
+    private float health = Properties.Creature.MAX_HEALTH;
 
     public Creature(CreatureBlueprint blueprint) {
         this.transform.setSize(10);
@@ -47,16 +44,12 @@ public class Creature extends Entity implements Transformable, Colorable, Creatu
 
     @Override
     public void tick() {
-        float aggravationRate = 1.0f;
-        float healRate = 0.1f;
-        float starvationRate = 0.5f;
-
         if (energy <= 0)
-            health -= aggravationRate;
-        if (health <= 100)
-            health += healRate;
+            health -= Properties.Creature.AGGRAVATION_RATE;
+        if (health <= Properties.Creature.MAX_HEALTH)
+            health += Properties.Creature.HEAL_RATE;
 
-        energy -= starvationRate;
+        energy -= Properties.Creature.STARVATION_RATE;
 
         path.tick();
         muscles.handle(brain.process(senses.get(this)), this);
@@ -72,7 +65,7 @@ public class Creature extends Entity implements Transformable, Colorable, Creatu
             }
         }
 
-        if (energy > 200f)
+        if (energy > Properties.Creature.MAX_ENERGY + Properties.Creature.BIRTH_ENERGY)
             giveBirth();
 
         if (health <= 0)
@@ -80,7 +73,7 @@ public class Creature extends Entity implements Transformable, Colorable, Creatu
     }
 
     private void giveBirth() {
-        energy = 100f;
+        energy -= Properties.Creature.BIRTH_ENERGY;
         getWorld().deferTask(() -> {
             CreatureGenomeSerializer serializer = new CreatureGenomeSerializer();
             Creature child = new CreatureBirther(serializer, genome, genome).build();
@@ -119,8 +112,7 @@ public class Creature extends Entity implements Transformable, Colorable, Creatu
     public void move(PVector dir) {
         dir.limit(1f);
         if (dir.mag() > 0) {
-            float exhaustionFactor = 0.025f;
-            energy -= dir.mag() * exhaustionFactor;
+            energy -= dir.mag() * Properties.Creature.EXHAUSTION_FACTOR;
             transform.setDir(dir);
             transform.translate(dir.mult(speed));
         }
